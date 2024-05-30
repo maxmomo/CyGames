@@ -1,0 +1,14 @@
+UPDATE riders AS ri
+JOIN (SELECT MAX(odr_points) AS max_odr FROM riders) AS sub_odr
+JOIN (SELECT MAX(gc_points) AS max_gc FROM riders) AS sub_gc
+JOIN (SELECT MAX(tt_points) AS max_tt FROM riders) AS sub_tt
+JOIN (SELECT MAX(sprint_points) AS max_sprint FROM riders) AS sub_sprint
+JOIN (SELECT MAX(climb_points) AS max_climb FROM riders) AS sub_climb
+
+SET 
+    ri.odr_points = CONVERT(100 * LOG(1 + ri.odr_points) / LOG(1 + sub_odr.max_odr), UNSIGNED INTEGER),
+    ri.gc_points = CONVERT(100 * LOG(1 + ri.gc_points) / LOG(1 + sub_gc.max_gc), UNSIGNED INTEGER),
+    ri.tt_points = CONVERT(100 * LOG(1 + ri.tt_points) / LOG(1 + sub_tt.max_tt), UNSIGNED INTEGER),
+    ri.sprint_points = CONVERT(100 * LOG(1 + ri.sprint_points) / LOG(1 + sub_sprint.max_sprint), UNSIGNED INTEGER),
+    ri.climb_points = CONVERT(100 * LOG(1 + ri.climb_points) / LOG(1 + sub_climb.max_climb), UNSIGNED INTEGER)
+WHERE ri.id > 0;
