@@ -9,6 +9,7 @@ import axios from 'axios';
  * @returns {Promise<Object|boolean>} - Renvoie les données de l'utilisateur ou false en cas d'échec
  */
 const loginUser = async (ip_address, email, password) => {
+
     try {
         const response = await axios({
             method: 'get',
@@ -46,27 +47,6 @@ const createUser = async (ip_address, email, userName, password) => {
 };
 
 /**
- * Fonction pour récupérer les ligues de l'utilisateur.
- *
- * @param {string} ip_address - Adresse IP du serveur.
- * @param {integer} user_id - id de l'utilisateur.
- * @returns {Promise<Object|boolean>} - Renvoie les données des ligues de l'utilisateur
- */
-const getLeaguesUser = async (ip_address, user_id) => {
-    try {
-        const response = await axios({
-            method: 'get',
-            url: 'http://' + ip_address + ':3000/user/leagues',
-            params: { user_id }
-        });
-        return response.data;
-    } catch (error) {
-        console.error(error);
-        throw error;
-    }
-};
-
-/**
  * Fonction pour changer l'avatar d'un utilisateur.
  *
  * @param {string} ip_address - Adresse IP du serveur.
@@ -87,26 +67,4 @@ const setAvatarUser = async (ip_address, user_id, avatar) => {
     }
 };
 
-/**
- * Fonction pour récupérer les points d'un utilisateur.
- *
- * @param {string} ip_address - Adresse IP du serveur.
- * @param {integer} user_id - id de l'utilisateur.
- * @param {integer} league_id - id de la ligue.
- * @returns {Promise<Object|boolean>} - Renvoie les données des points de l'utilisateur
- */
-const getUserPoints = async (ip_address, user_id, league_id) => {
-    try {
-        const response = await axios({
-            method: 'get',
-            url: 'http://' + ip_address + ':3000/point/user',
-            params: { user_id, league_id }
-        });
-        return response.data;
-    } catch (error) {
-        console.error(error);
-        throw error;
-    }
-};
-
-export { loginUser, createUser, getLeaguesUser, setAvatarUser, getUserPoints };
+export { loginUser, createUser, setAvatarUser };

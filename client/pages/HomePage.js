@@ -1,15 +1,34 @@
-import React from 'react';
-import { View } from 'react-native';
+import React, { useCallback } from 'react';
+import { View, SafeAreaView } from 'react-native';
 
-import LeaguesScreen from '../screens/LeaguesScreen';
+import { useNavigation } from '@react-navigation/native';
+
+import Header from '../components/Basic/Header';
+import MenuCard from '../components/Cards/menuCard'
 
 import { commonStyles } from '../styles/GlobalStyles';
 
 export default function HomePage() {
+
+    const navigation = useNavigation();
+
+    const onPressGrids = useCallback(() => {
+        navigation.navigate('Grids');
+    }, [navigation]);
     
     return (
-        <View style={commonStyles.container}>
-            <LeaguesScreen />  
-        </View>
+        <SafeAreaView style={commonStyles.container}>
+            <Header is_navigation={false} />
+            <View style={[commonStyles.row, commonStyles.flex1]}>
+                <View style={commonStyles.flex1}>
+                    <MenuCard name="Game" onPress={onPressGrids} />
+                    <MenuCard name="Game" />
+                </View>
+                <View style={commonStyles.flex1}>
+                    <MenuCard name="Cards" />
+                    <MenuCard name="Game" />
+                </View>
+            </View>
+        </SafeAreaView>
     );
 }

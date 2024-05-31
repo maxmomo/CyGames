@@ -14,7 +14,6 @@ const connectUser = async (req, res) => {
     if (user.length == 0) {
         result = false
     } else {
-        console.log(params['password'], user[0].password)
         if (await bcrypt.compare(params['password'], user[0].password)) {
             result = user[0]
         } else {

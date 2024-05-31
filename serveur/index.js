@@ -7,7 +7,7 @@ const sequelize = require('./config/database');
 const router = require('./routes/index');
 
 // Synchronise les modèles avec la base de données
-sequelize.sync({ alter: true })
+sequelize.sync({ alter: false })
   .then(() => {
     console.log('La synchronisation avec la base de données est terminée.');
   })
