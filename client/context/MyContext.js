@@ -12,6 +12,7 @@ export const MyContextProvider = ({ children }) => {
     const initialState = {
         user: '',
         grid: '',
+        ip_adress: '192.168.1.125'
     };
 
     const reducer = (state, action) => {

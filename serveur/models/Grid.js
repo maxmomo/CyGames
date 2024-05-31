@@ -25,5 +25,12 @@ const Grid = sequelize.define('Grid', {
     },
 })
 
+Grid.associate = (models) => {
+    Grid.belongsToMany(models.User, {
+      through: models.UsersGrids,
+      foreignKey: 'gridId',
+    });
+  };
+
 
 module.exports = Grid;

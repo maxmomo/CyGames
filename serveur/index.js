@@ -1,13 +1,51 @@
 const express = require('express');
 const cors = require('cors');
-const http = require('http'); // Importez le module http
-
-const app = express();
+const http = require('http');
 const sequelize = require('./config/database');
 const router = require('./routes/index');
 
+const app = express();
+
+// Importer les modèles
+const User = require('./models/User');
+const Grid = require('./models/Grid');
+const UsersGrids = require('./models/UsersGrids');
+
+// Configurer les associations
+const db = {};
+db.User = User;
+db.Grid = Grid;
+db.UsersGrids = UsersGrids;
+
+// Associer les modèles
+User.associate(db);
+Grid.associate(db);
+
+// Hooks pour alimenter la table UsersGrids
+User.addHook('afterCreate', async (user, options) => {
+  const grids = await Grid.findAll();
+  const usersGridsData = grids.map(grid => ({
+    userId: user.id,
+    gridId: grid.id,
+    score: 0,
+  }));
+
+  await UsersGrids.bulkCreate(usersGridsData);
+});
+
+Grid.addHook('afterCreate', async (grid, options) => {
+  const users = await User.findAll();
+  const usersGridsData = users.map(user => ({
+    userId: user.id,
+    gridId: grid.id,
+    score: 0,
+  }));
+
+  await UsersGrids.bulkCreate(usersGridsData);
+});
+
 // Synchronise les modèles avec la base de données
-sequelize.sync({ alter: false })
+sequelize.sync({ alter: true })
   .then(() => {
     console.log('La synchronisation avec la base de données est terminée.');
   })
@@ -15,14 +53,14 @@ sequelize.sync({ alter: false })
     console.error('Erreur lors de la synchronisation avec la base de données :', error);
   });
 
-// Middlewareseq
+// Middlewares
 app.use(cors());
 app.use(express.json());
 app.use(router);
 
 // Paramètres du serveur
 const port = 3000;
-const maxHeaderSize = 1000000; // Taille maximale des en-têtes (ajustez selon vos besoins)
+const maxHeaderSize = 1000000;
 
 // Création et démarrage du serveur avec une taille maximale d'en-tête personnalisée
 const server = http.createServer({ maxHeaderSize }, app);

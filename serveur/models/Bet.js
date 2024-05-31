@@ -9,6 +9,7 @@ const League = require("./League")
 const UsersLeagues = require("./UsersLeagues")
 const Grid = require("./Grid")
 const GridInformation = require("./GridInformation")
+const UsersGrids = require("./UsersGrids")
 
 const Bet = sequelize.define('Bet', 
     {

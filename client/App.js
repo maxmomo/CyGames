@@ -9,6 +9,7 @@ import HomePage from './pages/HomePage';
 import SplashScreen from './screens/SplashScreen';
 import SplashScreenWait from './screens/SplashScreenWait';
 import GridsPage from './pages/GridsPage';
+import GridPage from './pages/GridPage';
 
 const Stack = createStackNavigator();
 
@@ -62,6 +63,14 @@ export default function App() {
             component={GridsPage}
             options={() => ({
               title: 'Grids',
+              headerShown: false
+            })}
+          />
+          <Stack.Screen 
+            name='Grid' 
+            component={GridPage}
+            options={() => ({
+              title: 'Grid',
               headerShown: false
             })}
           />
