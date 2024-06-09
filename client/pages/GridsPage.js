@@ -10,6 +10,7 @@ import { getAllGrids } from '../api/grid/api';
 import { commonStyles } from '../styles/GlobalStyles';
 import Header from '../components/Basic/Header';
 import colors from '../constants/colors';
+import { getAllRiders } from '../api/riders/api';
 
 export default function GridsPage() {
 
@@ -17,17 +18,29 @@ export default function GridsPage() {
     const navigation = useNavigation();
 
     const [grids, setGrids] = useState([]);
+    const [riders, setRiders] = useState([]);
 
     const user_id = state['user']['id']
 
     useEffect(() => {
         getGridsEffect();
+        getRidersEffect();
     }, [getGridsEffect]);
 
     const getGridsEffect = useCallback(async () => {
         try {
             const data = await getAllGrids(state['ip_adress'], user_id);
             setGrids(data);
+        } catch (error) {
+            Alert.alert('Erreur', 'Une erreur est survenue lors de la connexion. Veuillez réessayer.');
+        }
+    }, []);
+
+    const getRidersEffect = useCallback(async () => {
+        try {
+            const data = await getAllRiders(state['ip_adress']);
+            setRiders(data);
+            dispatch({ type: 'SET_RIDERS', payload: data });
         } catch (error) {
             Alert.alert('Erreur', 'Une erreur est survenue lors de la connexion. Veuillez réessayer.');
         }

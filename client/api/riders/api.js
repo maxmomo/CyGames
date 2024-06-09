@@ -1,19 +1,17 @@
 import axios from 'axios';
 
 /**
- * Fonction pour récupérer les grilles de niveau.
+ * Fonction pour récupérer tous les coureurs
  *
  * @param {string} ip_address - Adresse IP du serveur.
- * @param {string} user_id - Id de l'utilisateur.
  * @returns {Promise<Object|boolean>} - Renvoie les données des grilles de niveau
  */
-const getAllGrids = async (ip_address, user_id) => {
+const getAllRiders = async (ip_address) => {
     try {
         
         const response = await axios({
             method: 'get',
-            url: 'http://' + ip_address + ':3000/grids/all',
-            params: {user_id}
+            url: 'http://' + ip_address + ':3000/riders/all',
         });
         
         return response.data;
@@ -23,4 +21,4 @@ const getAllGrids = async (ip_address, user_id) => {
     }
 };
 
-export { getAllGrids };
+export { getAllRiders };

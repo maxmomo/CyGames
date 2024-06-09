@@ -43,7 +43,7 @@ export default function LoginPage() {
     return (
         <SafeAreaView style={[commonStyles.container, {alignItems: 'center', backgroundColor: colors.background}]}>
             <View style={styles.logoView}>
-                <Logo width={250} height={200} />
+                {/* <Logo width={250} height={200} /> */}
             </View>
             <View style={styles.inputsView}>
                 <BasicTextInput type={'email-address'} value={email} onChangeText={setEmail} placeholder={'Email'} secureTextEntry={false} />
