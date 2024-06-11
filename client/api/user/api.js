@@ -9,7 +9,7 @@ import axios from 'axios';
  * @returns {Promise<Object|boolean>} - Renvoie les données de l'utilisateur ou false en cas d'échec
  */
 const loginUser = async (ip_address, email, password) => {
-    console.log(ip_address)
+
     try {
         const response = await axios({
             method: 'get',

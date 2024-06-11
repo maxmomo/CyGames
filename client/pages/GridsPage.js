@@ -8,7 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import { getAllGrids } from '../api/grid/api';
 
 import { commonStyles } from '../styles/GlobalStyles';
-import Header from '../components/Basic/Header';
+import Header from '../components/Header';
 import colors from '../constants/colors';
 import { getAllRiders } from '../api/riders/api';
 

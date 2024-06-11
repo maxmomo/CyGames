@@ -8,4 +8,8 @@ const UsersGrids = sequelize.define('UsersGrids', {
   },
 });
 
+UsersGrids.associate = (models) => {
+  UsersGrids.hasMany(models.UsersGridsLines, { foreignKey: 'usersGridsId', as: 'lines' });
+};
+
 module.exports = UsersGrids;

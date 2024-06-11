@@ -3,7 +3,7 @@ import { View, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import colors from '../../constants/colors';
+import colors from '../constants/colors';
 
 function Header(props) {
 
@@ -25,7 +25,7 @@ function Header(props) {
             </TouchableOpacity>
             }
             <View style={styles.title}>
-                <Image source={require('../../assets/header.png')} style={styles.logo} />
+                <Image source={require('../assets/header.png')} style={styles.logo} />
             </View>
             {!props.is_profile && <TouchableOpacity style={styles.icon} onPress={onPressProfile}>
                 <MaterialCommunityIcons name='account-circle' size={30} color={props.active || typeof(props.active) == 'undefined' ? colors.theme : colors.inactive} />

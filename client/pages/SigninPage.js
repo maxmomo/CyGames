@@ -3,9 +3,8 @@ import { View, SafeAreaView, StyleSheet, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useMyContext } from '../context/MyContext';
 
-import BasicButton from '../components/Basic/BasicButton';
-import BasicTextInput from '../components/Basic/BasicTextInput';
-import Logo from '../components/Basic/Logo';
+import BasicButton from '../components/BasicButton';
+import BasicTextInput from '../components/BasicTextInput';
 
 import { createUser } from '../api/user/api';
 
@@ -37,7 +36,7 @@ export default function SigninPage() {
     return (
         <SafeAreaView style={[commonStyles.container, {alignItems: 'center'}]}>
             <View style={styles.logoView}>
-                <Logo width={250} height={200} />
+                {/* <Logo width={250} height={200} /> */}
             </View>
             <View style={styles.inputsView}>
                 <View style={styles.inputView}>

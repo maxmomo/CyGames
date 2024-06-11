@@ -1,25 +1,29 @@
-import React, { useState } from 'react';
-import { TouchableOpacity, StyleSheet, Text, SafeAreaView, View, Modal, KeyboardAvoidingView } from 'react-native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+// GridPage.js
+import React, { useState, useCallback } from 'react';
+import { StyleSheet, Text, SafeAreaView, View, Modal, KeyboardAvoidingView, Platform } from 'react-native';
 import { useMyContext } from '../context/MyContext';
-import Flag from 'react-native-flags';
-
 import { commonStyles } from '../styles/GlobalStyles';
-import Header from '../components/Basic/Header';
+import Header from '../components/Header';
 import colors from '../constants/colors';
-import Logo from '../components/Basic/Logo';
-import BasicTextInputModal from '../components/Basic/BasicTextInputModal';
-import BasicButton from '../components/Basic/BasicButton';
+import BasicTextInputModal from '../components/BasicTextInputModal';
+import BasicButton from '../components/BasicButton';
+import Grid from '../components/Grid';
+import StarIcons from '../components/StarIcons';
+import { setUserGridLines } from '../api/gridLine/api';
 
 export default function GridPage() {
     const { state } = useMyContext();
     const grid = state['grid'];
+    const user = state['user']
+    const riders = state['riders'];
 
     const [modalVisible, setModalVisible] = useState(false);
     const [textInputValue, setTextInputValue] = useState('');
     const [suggestions, setSuggestions] = useState([]);
     const [showSuggestions, setShowSuggestions] = useState(false);
-    const riders = state['riders']
+    const [selectedCell, setSelectedCell] = useState({ row: null, col: null, picture: null });
+    const [selectedItem, setSelectedItem] = useState({});
+    const [gridData, setGridData] = useState([[], [], []]);
 
     const handleTextInputChange = (text) => {
         setTextInputValue(text);
@@ -40,76 +44,58 @@ export default function GridPage() {
         setShowSuggestions(false);
     };
 
-    const renderStarIcons = (score) => {
-        const stars = [];
-        for (let i = 0; i < 3; i++) {
-            const iconName = i < score ? 'star' : 'star-outline';
-            stars.push(
-                <MaterialCommunityIcons key={i} name={iconName} size={40} color={colors.theme} />
-            );
+    const handleValidate = () => {
+        const item = riders.find(item => item.name === textInputValue);
+        if (item && selectedCell.row !== null && selectedCell.col !== null) {
+            setSelectedItem(item);
+            setTextInputValue('');
+            setModalVisible(false);
         }
-        return stars;
     };
 
-    const renderHeaderCell = (Item) => {
-        const element = 'e' + Item[1];
-        const additional = 'a' + Item[1];
-        const information = 'i' + Item[1];
-        if (grid[element] === 'Nationality') {
-            return <Flag code={grid[Item]} size={32} />;
-        } else if (grid[element] === 'Race') {
-            return <Logo race={grid[information]} additional={grid[additional]} />;
-        }
-        return (
-            <View style={styles.cell}>
-                <Text style={commonStyles.text13}>{grid[information]}</Text>
-            </View>
-        );
+    const handleCancel = () => {
+        setTextInputValue('');
+        setModalVisible(false);
     };
+
+    const onPressSave = useCallback(async () => {
+        try {
+            await setUserGridLines(state['ip_adress'], user['id'], grid['id'], gridData);
+        } catch (error) {
+            Alert.alert('Erreur', 'Une erreur est survenue lors de la connexion. Veuillez réessayer.');
+        }
+    }, []);
 
     return (
         <SafeAreaView style={commonStyles.container}>
             <Header is_navigation={true} />
-            <View style={[commonStyles.margin3Bottom, commonStyles.center]}>
-                <Text style={[commonStyles.text24, commonStyles.bold]}>{'Niveau' + ' ' + grid['level']}</Text>
-            </View>
             <View style={[commonStyles.margin3Bottom, commonStyles.center, commonStyles.row]}>
-                {renderStarIcons(grid['score'])}
+                <Text style={[commonStyles.text24, commonStyles.bold]}>{'Niveau' + ' ' + grid['level'] + ' : '}</Text>
+                <StarIcons score={grid['score']} />
             </View>
-            <View style={styles.gridContainer}>
-                <View style={styles.row}>
-                    <View style={styles.emptyCell}></View>
-                    {['i1', 'i2', 'i3'].map((colItem) => (
-                        <View key={colItem} style={styles.headerCell}>
-                            {renderHeaderCell(colItem)}
-                        </View>
-                    ))}
-                </View>
-                {['i4', 'i5', 'i6'].map((rowItem) => (
-                    <View key={rowItem} style={styles.row}>
-                        <View key={rowItem} style={styles.headerCell}>
-                            {renderHeaderCell(rowItem)}
-                        </View>
-                        {['i1', 'i2', 'i3'].map((colItem) => (
-                            <TouchableOpacity key={`${rowItem}-${colItem}`} style={styles.cell} onPress={() => setModalVisible(true)}>
-    
-                            </TouchableOpacity>
-                        ))}
-                    </View>
-                ))}
+            <View style={[commonStyles.margin3Bottom, commonStyles.flex1]}>
+                <Grid 
+                    setModalVisible={setModalVisible} 
+                    setSelectedCell={setSelectedCell} 
+                    selectedCell={selectedCell}
+                    gridData={gridData}
+                    setGridData={setGridData}
+                    selectedItem={selectedItem}
+                />
             </View>
-            <TouchableOpacity style={styles.button}>
-                <Text style={styles.buttonText}>Valider</Text>
-            </TouchableOpacity>
-            <KeyboardAvoidingView
-                behavior={Platform.OS === "ios" ? "padding" : "height"}
-                style={styles.keyboardAvoidingView}
+            <View style={[commonStyles.margin3Bottom]}>
+                <BasicButton text={'Sauvegarder'} onPress={onPressSave} />
+                <BasicButton text={'Valider'} onPress={() => setModalVisible(true)} />
+            </View>
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => setModalVisible(false)}
             >
-                <Modal
-                    animationType="slide"
-                    transparent={true}
-                    visible={modalVisible}
-                    onRequestClose={() => setModalVisible(false)}
+                <KeyboardAvoidingView
+                    behavior={Platform.OS === "ios" ? "padding" : "height"}
+                    style={styles.keyboardAvoidingView}
                 >
                     <View style={styles.modalContainer}>
                         <View style={styles.modalView}>
@@ -121,74 +107,26 @@ export default function GridPage() {
                                 onSuggestionClick={handleSuggestionClick}
                             />
                             <View style={commonStyles.margin5Top}>
-                                <BasicButton text={'Valider'} onPress={() => setModalVisible(false)} />
+                                <BasicButton
+                                    text={'Valider'}
+                                    onPress={handleValidate}
+                                />
+                                <BasicButton
+                                    text={'Annuler'}
+                                    onPress={handleCancel}
+                                />
                             </View>
                         </View>
                     </View>
-                </Modal>
-            </KeyboardAvoidingView>
+                </KeyboardAvoidingView>
+            </Modal>
         </SafeAreaView>
     );
-    
-    
 }
 
 const styles = StyleSheet.create({
-    gridContainer: {
-        flex: 1,
-        marginHorizontal: '2%',
-        marginTop: '3%'
-    },
-    row: {
-        flexDirection: 'row',
-        alignItems: 'stretch',
-    },
-    cell: {
-        flex: 1,
-        borderWidth: 1,
-        borderColor: colors.theme,
-        justifyContent: 'center',
-        alignItems: 'center',
-        aspectRatio: 1, 
-    },
-    headerCell: {
-        flex: 1,
-        borderWidth: 1,
-        borderColor: colors.theme,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: colors.backgroundLight,
-        aspectRatio: 1, 
-    },
-    emptyCell: {
-        flex: 1,
-        backgroundColor: colors.backgroundLight,
-    },
-    button: {
-        backgroundColor: colors.theme,
-        alignItems: 'center',
-        padding: '2%',
-        marginVertical: '5%', // Ajustez cette valeur selon vos besoins
-        borderRadius: 30, // J'ai également changé le borderRadius pour correspondre à la conception du bouton
-    },
-    button: {
-        backgroundColor: colors.theme,
-        alignItems: 'center',
-        padding: '2%',
-        marginHorizontal: '10%', // Maintenez la marge horizontale
-        borderRadius: 30, // Maintenez le borderRadius
-        position: 'absolute', // Ajoutez cette ligne pour définir la position absolue
-        bottom: '5%', // Ajoutez le décalage depuis le bas que vous souhaitez
-        left: 0, // Centrez horizontalement le bouton dans son conteneur
-        right: 0, // Centrez horizontalement le bouton dans son conteneur
-    },    
-    buttonText: {
-        color: 'white',
-        fontSize: 16,
-        fontWeight: 'bold',
-    },
     modalContainer: {
-        flex: 1,
+        flexGrow: 1,
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -201,5 +139,5 @@ const styles = StyleSheet.create({
     },
     keyboardAvoidingView: {
         flex: 1,
-    }
+    },
 });

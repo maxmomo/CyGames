@@ -3,8 +3,8 @@ import { View, SafeAreaView } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
 
-import Header from '../components/Basic/Header';
-import MenuCard from '../components/Cards/menuCard'
+import Header from '../components/Header';
+import MenuCard from '../components/menuCard'
 
 import { commonStyles } from '../styles/GlobalStyles';
 

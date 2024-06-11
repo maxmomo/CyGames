@@ -1,7 +1,7 @@
 import React from 'react';
-import { TouchableOpacity, FlatList, StyleSheet, Text, Image, View } from 'react-native';
-import { commonStyles } from '../../styles/GlobalStyles';
-import colors from '../../constants/colors';
+import { TouchableOpacity, StyleSheet, Text } from 'react-native';
+import { commonStyles } from '../styles/GlobalStyles';
+import colors from '../constants/colors';
 
 
 export default function MenuCard(props) {

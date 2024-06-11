@@ -10,16 +10,23 @@ const app = express();
 const User = require('./models/User');
 const Grid = require('./models/Grid');
 const UsersGrids = require('./models/UsersGrids');
+const UsersGridsLines = require('./models/UsersGridsLines');
+const Rider = require('./models/Rider');
 
 // Configurer les associations
 const db = {};
 db.User = User;
 db.Grid = Grid;
+db.Rider = Rider;
 db.UsersGrids = UsersGrids;
+db.UsersGridsLines = UsersGridsLines;
 
 // Associer les modèles
 User.associate(db);
 Grid.associate(db);
+Rider.associate(db);
+UsersGrids.associate(db);
+UsersGridsLines.associate(db);
 
 // Hooks pour alimenter la table UsersGrids
 User.addHook('afterCreate', async (user, options) => {

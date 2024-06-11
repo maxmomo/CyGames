@@ -99,4 +99,8 @@ const Rider = sequelize.define('Rider', {
     }
 });
 
+Rider.associate = (models) => {
+    Rider.hasMany(models.UsersGridsLines, { foreignKey: 'riderId', as: 'riders' });
+};
+
 module.exports = Rider;

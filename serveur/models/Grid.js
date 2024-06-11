@@ -30,7 +30,7 @@ Grid.associate = (models) => {
       through: models.UsersGrids,
       foreignKey: 'gridId',
     });
-  };
+};
 
 
 module.exports = Grid;

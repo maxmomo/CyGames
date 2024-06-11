@@ -1,7 +1,6 @@
-const Grid = require("../../models/Grid")
 const db = require("../../config/database")
 
-const getGrids = async (req, res) => {
+const getAllGrids = async (req, res) => {
     params = req.query
 
     const grids = await db.query(
@@ -33,4 +32,4 @@ const getGrids = async (req, res) => {
 };
 
 
-module.exports = {getGrids};
+module.exports = {getAllGrids};
