@@ -10,5 +10,6 @@ export default {
     orange: '#ED7F10',
     gold: '#EFD807',
     silver: '#C0C0C0',
-    bronze: '#614E1A'
+    bronze: '#614E1A',
+    accent: '#ED7F10'
 };

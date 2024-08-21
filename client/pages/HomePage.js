@@ -25,12 +25,12 @@ export default function HomePage() {
             <Header is_navigation={false} />
             <View style={[commonStyles.row, commonStyles.flex1]}>
                 <View style={commonStyles.flex1}>
-                    <MenuCard name="Game" onPress={onPressGrids} />
-                    <MenuCard name="Game" />
+                    <MenuCard name="Grille" onPress={onPressGrids} />
+                    <MenuCard name="A implémenter" />
                 </View>
                 <View style={commonStyles.flex1}>
                     <MenuCard name="Cards" onPress={onPressCards} />
-                    <MenuCard name="Game" />
+                    <MenuCard name="A implémenter" />
                 </View>
             </View>
         </SafeAreaView>

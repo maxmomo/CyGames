@@ -1,10 +1,47 @@
-import { View, TextInput, StyleSheet } from 'react-native';
+import React, { useRef } from 'react';
+import { View, TextInput, StyleSheet, Animated } from 'react-native';
 import colors from '../../constants/colors';
 
-export default function BasicTextInput(props) {
+export default function AnimatedTextInput(props) {
+    const borderColorAnim = useRef(new Animated.Value(0)).current;
+    const scaleAnim = useRef(new Animated.Value(1)).current;
+
+    const handleFocus = () => {
+        Animated.parallel([
+            Animated.timing(borderColorAnim, {
+                toValue: 1, 
+                duration: 300,
+                useNativeDriver: true,
+            }),
+            Animated.spring(scaleAnim, {
+                toValue: 1.15, 
+                useNativeDriver: true,
+            }),
+        ]).start();
+    };
+
+    const handleBlur = () => {
+        Animated.parallel([
+            Animated.timing(borderColorAnim, {
+                toValue: 0,
+                duration: 300,
+                useNativeDriver: true,
+            }),
+            Animated.spring(scaleAnim, {
+                toValue: 1, 
+                useNativeDriver: true,
+            }),
+        ]).start();
+    };
+
+    const borderColor = borderColorAnim.interpolate({
+        inputRange: [0, 0.5, 1],
+        outputRange: [colors.whiteText, colors.background, colors.theme]
+    });
+
     return (
-        <View style={styles.inputView}>
-            <TextInput 
+        <Animated.View style={[styles.inputWrapper, { borderColor, transform: [{ scale: scaleAnim }] }]}>
+            <TextInput
                 style={styles.input}
                 keyboardType={props.type}
                 placeholder={props.placeholder}
@@ -12,24 +49,23 @@ export default function BasicTextInput(props) {
                 value={props.value}
                 onChangeText={props.onChangeText}
                 secureTextEntry={props.secureTextEntry}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
             />
-        </View>
+        </Animated.View>
     );
 }
 
 const styles = StyleSheet.create({
-    inputView: {
-        marginTop: '5%',
-        alignItems: 'center',
-        width: '100%',
+    inputWrapper: {
+        width: '80%',
+        borderWidth: 2,
+        borderRadius: 20,
+        marginVertical: 10,
     },
     input: {
-        width: '80%',
-        padding: '2%',
-        borderWidth: 1,
-        borderColor: colors.theme,
-        borderRadius: 20,
-        borderWidth: 2,
-        color: colors.whiteText
+        padding: '3%',
+        color: colors.whiteText,
+        fontSize: 16,
     },
 });

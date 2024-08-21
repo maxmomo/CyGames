@@ -1,26 +1,57 @@
-import React from 'react';
-import { TouchableOpacity, StyleSheet, Text } from 'react-native';
-import { commonStyles } from '../styles/GlobalStyles';
-import colors from '../constants/colors';
-
+import { useRef } from 'react';
+import { TouchableOpacity, StyleSheet, Animated } from 'react-native';
 
 export default function MenuCard(props) {
+    const scaleAnim = useRef(new Animated.Value(1)).current;
+
+    const handlePressIn = () => {
+        Animated.spring(scaleAnim, {
+            toValue: 0.9,
+            speed: 20,
+            useNativeDriver: true,
+        }).start();
+    };
+
+    const handlePressOut = () => {
+        Animated.spring(scaleAnim, {
+            toValue: 1,
+            speed: 100,
+            useNativeDriver: true,
+        }).start(() => {
+            if (props.onPress) {
+                props.onPress();
+            }
+        });
+    };
 
     return (
-        <TouchableOpacity style={styles.card} onPress={props.onPress}>
-            <Text style={commonStyles.text24}>{props.name}</Text>
+        <TouchableOpacity
+            style={styles.card}
+            onPressIn={handlePressIn}
+            onPressOut={handlePressOut}
+        >
+            <Animated.Image
+                style={[
+                    styles.image,
+                    {
+                        transform: [{ scale: scaleAnim }]
+                    }
+                ]}
+                source={require('../assets/Grilles.png')}
+            />
         </TouchableOpacity>
     );
 }
 
 const styles = StyleSheet.create({
     card: {
-        flex: 1,
-        borderWidth: 2,
-        borderColor: colors.theme,
-        margin: '10%',
-        borderRadius: 30,
+        margin: '9%',
         alignItems: 'center',
         justifyContent: 'center'
     },
+    image: {
+        resizeMode: 'contain',
+        width: 250,
+        height: 250
+    }
 });
