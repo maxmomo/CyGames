@@ -1,7 +1,6 @@
 import { useState, useCallback } from 'react';
-import { View, SafeAreaView, StyleSheet, Alert } from 'react-native';
+import { View, SafeAreaView, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-
 import { useMyContext } from '../context/MyContext';
 
 import { BasicButton, BasicTextInput, LogoMain } from '../components';
@@ -20,7 +19,7 @@ export default function LoginPage() {
 
     /**
      * Déclenché lors de l'appuie sur le bouton se connecter 
-     ** Si pas d'email ni de mot de passe saisi => Message d'alerte
+     ** Si pas d'email / mot de passe saisi => Message d'alerte
      ** Si identifiants incorrects => Message d'alerte
      ** Si identifiants existent => Navigation vers Home 
     **/
@@ -54,11 +53,11 @@ export default function LoginPage() {
     }, [navigation]);
 
     return (
-        <SafeAreaView style={[commonStyles.container]}>
-            <View style={styles.logoView}>
+        <SafeAreaView style={commonStyles.container}>
+            <View style={commonStyles.logoView}>
                 <LogoMain />
             </View>
-            <View style={styles.inputsView}>
+            <View style={commonStyles.inputsView}>
                 <BasicTextInput 
                     value={email} 
                     onChangeText={setEmail} 
@@ -69,10 +68,11 @@ export default function LoginPage() {
                     value={password} 
                     onChangeText={setPassword} 
                     placeholder={'Mot de passe'} 
+                    type={'visible-password'} 
                     secureTextEntry={true} 
                 />
             </View>
-            <View style={styles.buttonsView}>
+            <View style={commonStyles.buttonsView}>
                 <BasicButton 
                     text={'Se connecter'} 
                     onPress={onPressLogin} 
@@ -85,18 +85,3 @@ export default function LoginPage() {
         </SafeAreaView>
     );
 }
-
-const styles = StyleSheet.create({
-    logoView: {
-        marginTop: '25%',
-        alignItems: 'center',
-    },
-    inputsView: {
-        marginTop: '10%',
-        alignItems: 'center',
-    },
-    buttonsView: {
-        marginTop: '15%',
-        alignItems: 'center',
-    }
-});

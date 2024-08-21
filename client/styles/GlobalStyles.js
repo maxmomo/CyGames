@@ -6,6 +6,18 @@ const commonStyles = StyleSheet.create({
         flex: 1,
         backgroundColor: colors.backgroundLight
     },
+    logoView: {
+        marginTop: '25%',
+        alignItems: 'center',
+    },
+    inputsView: {
+        marginTop: '10%',
+        alignItems: 'center',
+    },
+    buttonsView: {
+        marginTop: '15%',
+        alignItems: 'center',
+    },
     containerLight: {
         flex: 1,
         backgroundColor: colors.backgroundLight
