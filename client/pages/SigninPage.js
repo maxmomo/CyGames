@@ -3,8 +3,7 @@ import { View, SafeAreaView, StyleSheet, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useMyContext } from '../context/MyContext';
 
-import BasicButton from '../components/BasicButton';
-import BasicTextInput from '../components/BasicTextInput';
+import { BasicButton, BasicTextInput, LogoMain } from '../components';
 
 import { createUser } from '../api/user/api';
 

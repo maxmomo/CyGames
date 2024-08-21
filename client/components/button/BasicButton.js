@@ -1,6 +1,5 @@
-import React from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
-import colors from '../constants/colors';
+import colors from '../../constants/colors';
 
 export default function BasicButton(props) {
     return (
@@ -19,17 +18,16 @@ export default function BasicButton(props) {
 
 const styles = StyleSheet.create({
     button: {
-        backgroundColor: colors.theme,
-        paddingVertical: '3%',
-        paddingHorizontal: '10%',
-        borderRadius: 10,
+        width: '60%',
+        padding: '2%',
+        borderRadius: 30,
         margin: '2%',
-        justifyContent: 'center'
+        backgroundColor: colors.theme,
     },
     buttonText: {
-        color: colors.background,
         fontSize: 16,
         fontWeight: 'bold',
         textAlign: 'center',
+        color: colors.background,
     },
 });

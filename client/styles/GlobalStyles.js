@@ -34,6 +34,10 @@ const commonStyles = StyleSheet.create({
         color: colors.backgroundLight,
         fontSize: 20
     },
+    text24Inv: {
+        color: colors.backgroundLight,
+        fontSize: 24
+    },
     text14: {
         color: colors.whiteText,
         fontSize: 14
@@ -96,6 +100,9 @@ const commonStyles = StyleSheet.create({
     },
     margin5Top: {
         marginTop: '5%'
+    },
+    margin15Top: {
+        marginTop: '15%'
     },
     marginHorizontal2: {
         marginHorizontal: '2%'

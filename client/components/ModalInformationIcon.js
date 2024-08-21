@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Image } from 'react-native';
 import { commonStyles } from '../styles/GlobalStyles';
 
-export default function Logo(props) {
+export default function ModalInformationIcon(props) {
     const parts = props.additional.split('/');
     const top = parts[0]
 

@@ -1,6 +1,5 @@
-import React from 'react';
 import { View, TextInput, StyleSheet } from 'react-native';
-import colors from '../constants/colors';
+import colors from '../../constants/colors';
 
 export default function BasicTextInput(props) {
     return (
@@ -20,9 +19,9 @@ export default function BasicTextInput(props) {
 
 const styles = StyleSheet.create({
     inputView: {
-        width: '100%',
+        marginTop: '5%',
         alignItems: 'center',
-        marginTop: '5%'
+        width: '100%',
     },
     input: {
         width: '80%',

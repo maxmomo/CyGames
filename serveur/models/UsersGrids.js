@@ -6,10 +6,10 @@ const UsersGrids = sequelize.define('UsersGrids', {
     type: DataTypes.INTEGER,
     defaultValue: 0,
   },
+  validated: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
+  }
 });
-
-UsersGrids.associate = (models) => {
-  UsersGrids.hasMany(models.UsersGridsLines, { foreignKey: 'usersGridsId', as: 'lines' });
-};
 
 module.exports = UsersGrids;

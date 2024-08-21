@@ -15,6 +15,10 @@ export default function HomePage() {
     const onPressGrids = useCallback(() => {
         navigation.navigate('Grids');
     }, [navigation]);
+
+    const onPressCards = useCallback(() => {
+        navigation.navigate('CategoryCards');
+    }, [navigation]);
     
     return (
         <SafeAreaView style={commonStyles.container}>
@@ -25,7 +29,7 @@ export default function HomePage() {
                     <MenuCard name="Game" />
                 </View>
                 <View style={commonStyles.flex1}>
-                    <MenuCard name="Cards" />
+                    <MenuCard name="Cards" onPress={onPressCards} />
                     <MenuCard name="Game" />
                 </View>
             </View>

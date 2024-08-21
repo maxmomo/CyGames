@@ -4,7 +4,7 @@ const getAllGrids = async (req, res) => {
     params = req.query
 
     const grids = await db.query(
-        "SELECT g.id as id, level, score, " +
+        "SELECT g.id as id, level, score, validated, " +
         "gi1.element as e1, gi1.information as i1, gi1.additional as a1, " +
         "gi2.element as e2, gi2.information as i2, gi2.additional as a2, " +
         "gi3.element as e3, gi3.information as i3, gi3.additional as a3, " +

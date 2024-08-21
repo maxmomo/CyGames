@@ -12,9 +12,11 @@ const Grid = require('./models/Grid');
 const UsersGrids = require('./models/UsersGrids');
 const UsersGridsLines = require('./models/UsersGridsLines');
 const Rider = require('./models/Rider');
+const UserRiders = require('./models/UserRiders');
 
 // Configurer les associations
 const db = {};
+db.UserRiders = UserRiders;
 db.User = User;
 db.Grid = Grid;
 db.Rider = Rider;
@@ -22,10 +24,10 @@ db.UsersGrids = UsersGrids;
 db.UsersGridsLines = UsersGridsLines;
 
 // Associer les modèles
+//UserRiders.associate(db);
 User.associate(db);
 Grid.associate(db);
 Rider.associate(db);
-UsersGrids.associate(db);
 UsersGridsLines.associate(db);
 
 // Hooks pour alimenter la table UsersGrids
@@ -52,7 +54,7 @@ Grid.addHook('afterCreate', async (grid, options) => {
 });
 
 // Synchronise les modèles avec la base de données
-sequelize.sync({ alter: true })
+sequelize.sync({ alter: false })
   .then(() => {
     console.log('La synchronisation avec la base de données est terminée.');
   })

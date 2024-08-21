@@ -1,10 +1,10 @@
 import React from 'react';
-import { View, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { View, StyleSheet, Image } from 'react-native';
 import colors from '../constants/colors';
 import HeaderCell from './HeaderCell';
 
-const Grid = ({ setModal1Visible, setSelectedCell, gridData, validated }) => {
-
+const GridSolution = ({ gridData }) => {
+    
     return (
         <View style={styles.gridContainer}>
             <View style={styles.row}>
@@ -17,15 +17,7 @@ const Grid = ({ setModal1Visible, setSelectedCell, gridData, validated }) => {
                 <View key={rowItem} style={styles.row}>
                     <HeaderCell key={rowItem} item={rowItem} />
                     {['i1', 'i2', 'i3'].map((colItem) => (
-                        <TouchableOpacity
-                            key={`${rowItem}-${colItem}`}
-                            style={styles.cell}
-                            disabled={validated}
-                            onPress={() => {
-                                setSelectedCell({ row: parseInt(rowItem.slice(1)) - 4, col: parseInt(colItem.slice(1)) - 1 });
-                                setModal1Visible(true);
-                            }}
-                        >
+                        <View style={styles.cell} key={`${rowItem}-${colItem}`}>
                             {gridData[parseInt(rowItem.slice(1)) - 4] && gridData[parseInt(rowItem.slice(1)) - 4][parseInt(colItem.slice(1)) - 1] && (
                                 <>
                                     <Image
@@ -49,7 +41,7 @@ const Grid = ({ setModal1Visible, setSelectedCell, gridData, validated }) => {
                                     )}
                                 </>
                             )}
-                        </TouchableOpacity>
+                        </View>
                     ))}
                 </View>
             ))}
@@ -59,7 +51,6 @@ const Grid = ({ setModal1Visible, setSelectedCell, gridData, validated }) => {
 
 const styles = StyleSheet.create({
     gridContainer: {
-        flex: 1,
         marginHorizontal: '2%',
         marginTop: '3%',
     },
@@ -95,4 +86,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Grid;
+export default GridSolution;

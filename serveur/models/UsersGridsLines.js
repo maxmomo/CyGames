@@ -6,25 +6,24 @@ const UsersGridsLines = sequelize.define('UsersGridsLines', {
         type: DataTypes.INTEGER,
         primaryKey: true,
     },
-    usersGridsId: {
+    correct: {
         type: DataTypes.INTEGER,
-        primaryKey: true,
-    },
-    riderId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        unique: false, // Ajout de cette option
+        defaultValue: 0,
     },
 });
 
 UsersGridsLines.associate = (models) => {
-    UsersGridsLines.belongsTo(models.UsersGrids, {
+    UsersGridsLines.belongsTo(models.User, {
         through: models.UsersGridsLines,
-        foreignKey: 'usersGridsId',
+        foreignKey: 'userId',
     });
     UsersGridsLines.belongsTo(models.Rider, {
         through: models.UsersGridsLines,
         foreignKey: 'riderId',
+    });
+    UsersGridsLines.belongsTo(models.Grid, {
+        through: models.UsersGridsLines,
+        foreignKey: 'gridId',
     });
 };
 

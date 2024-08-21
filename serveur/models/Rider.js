@@ -90,17 +90,44 @@ const Rider = sequelize.define('Rider', {
         type: DataTypes.INTEGER,
         defaultValue: 0
     },
+    average_points: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0
+    },
     season_points: {
         type: DataTypes.INTEGER,
         defaultValue: 0
     },
     birthdate: {
         type: DataTypes.DATEONLY
-    }
+    },
+    all_time: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0
+    },
+    uci_world: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0
+    },
+    pcs_rank: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0
+    },
+    category: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0
+    },
 });
 
 Rider.associate = (models) => {
-    Rider.hasMany(models.UsersGridsLines, { foreignKey: 'riderId', as: 'riders' });
+    Rider.hasMany(models.UsersGridsLines, { 
+        foreignKey: 'riderId', 
+        as: 'riders' 
+    });
+    Rider.belongsToMany(models.User, {
+        through: models.UserRiders,
+        foreignKey: 'riderId',
+    });
 };
 
 module.exports = Rider;

@@ -1,15 +1,14 @@
-import React, { useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { View, SafeAreaView, StyleSheet, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+
 import { useMyContext } from '../context/MyContext';
 
-import BasicButton from '../components/BasicButton';
-import BasicTextInput from '../components/BasicTextInput';
+import { BasicButton, BasicTextInput, LogoMain } from '../components';
 
 import { loginUser } from '../api/user/api';
 
 import { commonStyles } from '../styles/GlobalStyles';
-import colors from '../constants/colors';
 
 export default function LoginPage() {
     
@@ -19,11 +18,22 @@ export default function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    /**
+     * Déclenché lors de l'appuie sur le bouton se connecter 
+     ** Si pas d'email ni de mot de passe saisi => Message d'alerte
+     ** Si identifiants incorrects => Message d'alerte
+     ** Si identifiants existent => Navigation vers Home 
+    **/
     const onPressLogin = useCallback(async () => {
+        if (!email || !password) {
+            Alert.alert('Erreur', 'Veuillez entrer un email et un mot de passe.');
+            return;
+        }
+
         try {
             const data = await loginUser(state['ip_adress'], email, password);
             if (data === false) {
-                Alert.alert('Erreur de connexion', 'Identifiants incorrects', [{ text: 'OK' }]);
+                Alert.alert('Erreur de connexion', 'Identifiants incorrects');
             } else {
                 dispatch({ type: 'SET_USERNAME', payload: data });
                 setEmail('')
@@ -33,24 +43,44 @@ export default function LoginPage() {
         } catch (error) {
             Alert.alert('Erreur', 'Une erreur est survenue lors de la connexion. Veuillez réessayer.');
         }
-    }, [email, password, state, dispatch, navigation]);
+    }, [email, password]);
 
+    /**
+     * Déclenché lors de l'appuie sur le bouton créer un compte
+     ** Navigation vers Signin 
+    **/
     const onPressSignin = useCallback(() => {
         navigation.navigate('Signin');
     }, [navigation]);
 
     return (
-        <SafeAreaView style={[commonStyles.container, {alignItems: 'center', backgroundColor: colors.background}]}>
+        <SafeAreaView style={[commonStyles.container]}>
             <View style={styles.logoView}>
-                {/* <Logo width={250} height={200} /> */}
+                <LogoMain />
             </View>
             <View style={styles.inputsView}>
-                <BasicTextInput type={'email-address'} value={email} onChangeText={setEmail} placeholder={'Email'} secureTextEntry={false} />
-                <BasicTextInput value={password} onChangeText={setPassword} placeholder={'Mot de passe'} secureTextEntry={true} />
+                <BasicTextInput 
+                    value={email} 
+                    onChangeText={setEmail} 
+                    placeholder={'Email'} 
+                    type={'email-address'} 
+                />
+                <BasicTextInput 
+                    value={password} 
+                    onChangeText={setPassword} 
+                    placeholder={'Mot de passe'} 
+                    secureTextEntry={true} 
+                />
             </View>
             <View style={styles.buttonsView}>
-                <BasicButton text={'Se connecter'} onPress={onPressLogin} />
-                <BasicButton text={'Créer un compte'} onPress={onPressSignin} />
+                <BasicButton 
+                    text={'Se connecter'} 
+                    onPress={onPressLogin} 
+                />
+                <BasicButton 
+                    text={'Créer un compte'} 
+                    onPress={onPressSignin} 
+                />
             </View>
         </SafeAreaView>
     );
@@ -58,18 +88,15 @@ export default function LoginPage() {
 
 const styles = StyleSheet.create({
     logoView: {
-        marginTop: '15%'
+        marginTop: '25%',
+        alignItems: 'center',
     },
     inputsView: {
-        width: '100%',
-        marginTop: '8%'
-    },
-    inputView: {
-        width: '100%',
+        marginTop: '10%',
         alignItems: 'center',
-        marginTop: '5%'
     },
     buttonsView: {
-        marginTop: '8%'
+        marginTop: '15%',
+        alignItems: 'center',
     }
 });

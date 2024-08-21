@@ -30,6 +30,10 @@ Grid.associate = (models) => {
       through: models.UsersGrids,
       foreignKey: 'gridId',
     });
+    Grid.hasMany(models.UsersGridsLines, { 
+        foreignKey: 'gridId', 
+        as: 'grids' 
+    });
 };
 
 

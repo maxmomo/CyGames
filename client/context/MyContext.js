@@ -6,7 +6,8 @@ const MyContext = createContext();
 // Actions possibles pour modifier l'état
 const SET_USERNAME = 'SET_USERNAME';
 const SET_GRID = 'SET_GRID';
-const SET_RIDERS = 'SET_RIDERS'
+const SET_RIDERS = 'SET_RIDERS';
+const SET_USER_RIDERS = 'SET_USER_RIDERS';
 
 // Définit le fournisseur du contexte
 export const MyContextProvider = ({ children }) => {
@@ -14,6 +15,7 @@ export const MyContextProvider = ({ children }) => {
         user: '',
         grid: '',
         riders: [],
+        user_riders: [],
         ip_adress: '192.168.1.125'
     };
 
@@ -25,6 +27,8 @@ export const MyContextProvider = ({ children }) => {
                 return { ...state, grid: action.payload };
             case SET_RIDERS:
                 return { ...state, riders: action.payload };
+            case SET_USER_RIDERS:
+                return { ...state, user_riders: action.payload };
             default:
                 return state;
         }

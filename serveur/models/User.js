@@ -24,6 +24,14 @@ User.associate = (models) => {
     through: models.UsersGrids,
     foreignKey: 'userId',
   });
+  User.hasMany(models.UsersGridsLines, { 
+    foreignKey: 'userId', 
+    as: 'users' 
+  });
+  User.belongsToMany(models.Rider, {
+    through: models.UserRiders,
+    foreignKey: 'userId',
+  });
 };
 
 module.exports = User;
