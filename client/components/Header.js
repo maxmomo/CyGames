@@ -42,7 +42,6 @@ const styles = StyleSheet.create({
     header: {
         height: '10%',
         alignItems: 'center',
-        backgroundColor: colors.backgroundLight,
         flexDirection: 'row'
     },
     icon: {

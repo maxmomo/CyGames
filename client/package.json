@@ -36,6 +36,7 @@
     "react-native-flags": "^1.0.0",
     "react-native-image-picker": "^7.1.0",
     "react-native-paper": "^5.10.1",
+    "react-native-responsive-fontsize": "^0.5.1",
     "react-native-svg": "15.2.0",
     "react-native-tab-view": "^3.5.2",
     "react-native-vector-icons": "^10.0.0",

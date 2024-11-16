@@ -10,6 +10,7 @@ const getUserRidersLeague = async (req, res) => {
         "JOIN ridersteams rt ON rt.season = 2024 AND rt.RiderId = ri.id " +
         "JOIN teams t ON rt.TeamId = t.id " +
         "WHERE ur.UserId = :user_id AND " +
+        "t.status = 'WT' AND year = 2024 AND " +
         "ur.LeagueId = :league_id " + 
         "ORDER BY ri.season_points DESC",
         {

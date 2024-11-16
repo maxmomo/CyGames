@@ -8,12 +8,14 @@ const SET_USERNAME = 'SET_USERNAME';
 const SET_GRID = 'SET_GRID';
 const SET_RIDERS = 'SET_RIDERS';
 const SET_USER_RIDERS = 'SET_USER_RIDERS';
+const SET_CROSSWORD = 'SET_CROSSWORD'; 
 
 // Définit le fournisseur du contexte
 export const MyContextProvider = ({ children }) => {
     const initialState = {
         user: '',
         grid: '',
+        crossWord: '',
         riders: [],
         user_riders: [],
         ip_adress: '192.168.1.125'
@@ -25,6 +27,8 @@ export const MyContextProvider = ({ children }) => {
                 return { ...state, user: action.payload };
             case SET_GRID:
                 return { ...state, grid: action.payload };
+            case SET_CROSSWORD:
+                    return { ...state, crossWord: action.payload };
             case SET_RIDERS:
                 return { ...state, riders: action.payload };
             case SET_USER_RIDERS:

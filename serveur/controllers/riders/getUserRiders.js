@@ -9,7 +9,9 @@ const getUserRiders = async (req, res) => {
             "SELECT ri.* " +
             "FROM userriders ur " +
             "JOIN riders ri ON ri.id = ur.riderId " +
+            "JOIN teams t on ri.team_id = t.id " +
             "WHERE " +
+            "t.status = 'WT' AND year = 2025 AND " +
             "ur.userId = :user_id",
             {
                 type: db.SELECT,
@@ -21,7 +23,10 @@ const getUserRiders = async (req, res) => {
 
         const stat = await db.query(
             "SELECT COUNT(*) as count " +
-            "FROM riders " +
+            "FROM riders ri " +
+            "JOIN teams t on ri.team_id = t.id " +
+            "WHERE " +
+            "t.status = 'WT' AND year = 2025 " +
             "GROUP BY category " +
             "ORDER BY category",
             {

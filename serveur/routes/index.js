@@ -11,7 +11,8 @@ const {getUserGridLines} = require('../controllers/gridLines/getUserGridLines');
 const {checkUserGridLines} = require('../controllers/gridLines/checkUserGridLines');
 const {retryGrid} = require('../controllers/grid/retryGrid');
 const {getUserRiders} = require('../controllers/riders/getUserRiders');
-const {cretaUserRiders} = require('../controllers/userRiders/createUserRiders');
+const {createUserRiders} = require('../controllers/userRiders/createUserRiders');
+const {getAllCrossWords} = require('../controllers/crossWord/getAllCrossWords');
 
 router.get("/users/create", createUser)
 router.get("/users/connect", connectUser)
@@ -23,10 +24,12 @@ router.get("/riders/user", getUserRiders)
 router.get("/grids/all", getAllGrids)
 router.get('/grids/retry', retryGrid)
 
+router.get("/crossWords/all", getAllCrossWords)
+
 router.get("/lines/grid/user/set", setUserGridLines)
 router.get("/lines/grid/user/get", getUserGridLines)
 router.get("/lines/grid/user/check", checkUserGridLines)
 
-router.get("/userriders/create", cretaUserRiders)
+router.get("/userriders/create", createUserRiders)
 
 module.exports = router

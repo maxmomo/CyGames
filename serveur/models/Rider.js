@@ -30,30 +30,6 @@ const Rider = sequelize.define('Rider', {
     picture: {
         type: DataTypes.STRING,
     },
-    stage_victories: {
-        type: DataTypes.INTEGER,
-        defaultValue: 0
-    },
-    gc_victories: {
-        type: DataTypes.INTEGER,
-        defaultValue: 0
-    },
-    points_victories: {
-        type: DataTypes.INTEGER,
-        defaultValue: 0
-    },
-    mountain_victories: {
-        type: DataTypes.INTEGER,
-        defaultValue: 0
-    },
-    young_victories: {
-        type: DataTypes.INTEGER,
-        defaultValue: 0
-    },
-    odr_victories: {
-        type: DataTypes.INTEGER,
-        defaultValue: 0
-    },
     height: {
         type: DataTypes.FLOAT,
         defaultValue: 0.0
@@ -114,6 +90,14 @@ const Rider = sequelize.define('Rider', {
         defaultValue: 0
     },
     category: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0
+    },
+    speciality: {
+        type: DataTypes.STRING,
+        defaultValue: ''
+    },
+    rank: {
         type: DataTypes.INTEGER,
         defaultValue: 0
     },

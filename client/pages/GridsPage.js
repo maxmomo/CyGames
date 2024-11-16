@@ -1,16 +1,18 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { TouchableOpacity, FlatList, StyleSheet, Text, SafeAreaView, View } from 'react-native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-
+import { useEffect, useState, useCallback } from 'react';
+import { TouchableOpacity, FlatList, StyleSheet, Text, SafeAreaView, View, Image, Dimensions } from 'react-native';
 import { useMyContext } from '../context/MyContext';
 import { useNavigation } from '@react-navigation/native';
 
+import Header from '../components/Header';
+
 import { getAllGrids } from '../api/grid/api';
+import { getAllRiders } from '../api/riders/api';
 
 import { commonStyles } from '../styles/GlobalStyles';
-import Header from '../components/Header';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import colors from '../constants/colors';
-import { getAllRiders } from '../api/riders/api';
+
+const windowWidth = Dimensions.get('window').width;
 
 export default function GridsPage() {
 
@@ -50,13 +52,13 @@ export default function GridsPage() {
         dispatch({ type: 'SET_GRID', payload: item });
         navigation.navigate('Grid');
     }, [navigation]);
-    
+
     const renderStarIcons = (score) => {
         const stars = [];
         for (let i = 0; i < 3; i++) {
             const iconName = i < score ? 'star' : 'star-outline';
             stars.push(
-                <MaterialCommunityIcons key={i} name={iconName} size={24} color={colors.theme} />
+                <MaterialCommunityIcons key={i} name={iconName} size={24} color={colors.backgroundLight} />
             );
         }
         return stars;
@@ -65,9 +67,15 @@ export default function GridsPage() {
     const renderItem = ({ item }) => {
         return (
             <TouchableOpacity style={styles.card} onPress={() => onPressGrid(item)}>
-                <Text style={commonStyles.text24}>Niveau {item.level}</Text>
-                <View style={commonStyles.row}>
-                    {renderStarIcons(item.score)}
+                <Image 
+                    style={styles.image} 
+                    source={require('../assets/Niveau.png')} 
+                />
+                <View style={styles.textView}>
+                    <Text style={styles.text}>Niveau {item.level}</Text>
+                    <View style={commonStyles.row}>
+                        {renderStarIcons(item.score)}
+                    </View>
                 </View>
             </TouchableOpacity>
         );
@@ -90,13 +98,24 @@ export default function GridsPage() {
 
 const styles = StyleSheet.create({
     card: {
-        backgroundColor: colors.backgroundLight,
-        padding: '3%',
-        borderRadius: 30,
-        borderWidth: 1,
-        borderColor: colors.theme,
         alignItems: 'center',
-        margin: '1%',
-        flex: 1
+        justifyContent: 'center',
+        margin: '2%',
+        width: windowWidth * 0.46, 
+        height: windowWidth * 0.40
+    },
+    image: {
+        resizeMode: 'cover',
+        height: '100%',
+        width: '100%',
+    },
+    textView: {
+        position: 'absolute',
+        alignItems: 'center',
+    },
+    text: {
+        color: colors.backgroundLight,
+        fontSize: 28,
+        fontWeight: 'bold',
     }
 });

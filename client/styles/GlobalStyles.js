@@ -4,7 +4,6 @@ import colors from '../constants/colors';
 const commonStyles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: colors.backgroundLight
     },
     logoView: {
         marginTop: '25%',

@@ -13,6 +13,8 @@ const UsersGrids = require('./models/UsersGrids');
 const UsersGridsLines = require('./models/UsersGridsLines');
 const Rider = require('./models/Rider');
 const UserRiders = require('./models/UserRiders');
+const CrossWord = require('./models/CrossWord');
+const CrossWordSquare = require('./models/CrossWordSquare');
 
 // Configurer les associations
 const db = {};

@@ -15,13 +15,22 @@ export default function MenuCard(props) {
     const handlePressOut = () => {
         Animated.spring(scaleAnim, {
             toValue: 1,
-            speed: 100,
+            speed: 30,
             useNativeDriver: true,
         }).start(() => {
             if (props.onPress) {
                 props.onPress();
             }
         });
+    };
+
+    const getImageSource = () => {
+        if (props.name === 'Grille') {
+            return require('../assets/Grilles.png');
+        } else if (props.name === 'Carte') {
+            return require('../assets/Cartes.png');
+        } 
+        return require('../assets/Cartes.png'); // Une image par défaut si nécessaire
     };
 
     return (
@@ -37,7 +46,7 @@ export default function MenuCard(props) {
                         transform: [{ scale: scaleAnim }]
                     }
                 ]}
-                source={require('../assets/Grilles.png')}
+                source={getImageSource()} 
             />
         </TouchableOpacity>
     );

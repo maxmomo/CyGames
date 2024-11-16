@@ -5,7 +5,7 @@ import colors from '../constants/colors';
 export default function ModalButton(props) {
     return (
         <TouchableOpacity 
-            style={styles.button} 
+            style={[styles.button, props.opacity === 1 ? styles.opacity: styles.normal]} 
             onPress={props.onPress}
         >
             <Text 
@@ -31,5 +31,11 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
         textAlign: 'center',
+    },
+    opacity: {
+        opacity: 0.4
+    },
+    normal: {
+        opacity: 1
     },
 });

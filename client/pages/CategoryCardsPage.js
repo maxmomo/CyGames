@@ -20,7 +20,7 @@ export default function CategoryCardsPage() {
     const [userGold, setUserGold] = useState(0);
 
     const user_id = state['user']['id'];
-
+    
     const getRidersEffect = useCallback(async () => {
         try {
             const data = await getUserRiders(state['ip_adress'], user_id);

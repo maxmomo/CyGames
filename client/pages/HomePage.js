@@ -19,6 +19,10 @@ export default function HomePage() {
     const onPressCards = useCallback(() => {
         navigation.navigate('CategoryCards');
     }, [navigation]);
+
+    const onPressCrossWords = useCallback(() => {
+        navigation.navigate('CrossWords');
+    }, [navigation]);
     
     return (
         <SafeAreaView style={commonStyles.container}>
@@ -26,11 +30,11 @@ export default function HomePage() {
             <View style={[commonStyles.row, commonStyles.flex1]}>
                 <View style={commonStyles.flex1}>
                     <MenuCard name="Grille" onPress={onPressGrids} />
-                    <MenuCard name="A implémenter" />
+                    <MenuCard name="Mot croisé" onPress={onPressCrossWords} />
                 </View>
                 <View style={commonStyles.flex1}>
                     <MenuCard name="Cards" onPress={onPressCards} />
-                    <MenuCard name="A implémenter" />
+                    {/* <MenuCard name="A implémenter" /> */}
                 </View>
             </View>
         </SafeAreaView>

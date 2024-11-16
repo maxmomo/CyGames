@@ -14,28 +14,7 @@ import GridSolution from '../components/GridSolution';
 import ModalButton from '../components/ModalButton';
 import { createUserRiders } from '../api/userRiders/api';
 import Flag from 'react-native-flags';
-
-const RiderCard = ({ item, onPress, isDummy }) => {
-    if (isDummy) {
-        return <View style={[styles.card, styles.dummyCard]} />;
-    }
-
-    const rarity = item.category === 1 ? 'gold' : item.category === 2 ? 'silver' : 'bronze';
-
-    return (
-        <TouchableOpacity style={[styles.card, styles[rarity]]} onPress={() => onPress(item)}>
-            <View style={styles.imageContainer}>
-                <Image 
-                    source={{ uri: item.picture }} 
-                    style={styles.image} 
-                    resizeMode="cover"
-                />
-            </View>
-            <Text style={[commonStyles.text14, styles.text]}>{item.name}</Text>
-            <Flag code={item.nationality} size={24} />
-        </TouchableOpacity>
-    );
-};
+import RiderCard from '../components/RiderCard';
 
 export default function GridPage() {
     const { state, dispatch } = useMyContext();
@@ -109,6 +88,7 @@ export default function GridPage() {
     const handleReward = useCallback(async () => {
         setModal2Visible(false);
         const datas = await createUserRiders(state['ip_adress'], user['id'], 1);
+        console.log(datas)
         setRewardRiders(datas);
         setModal3Visible(true);
     },[]);
@@ -150,12 +130,6 @@ export default function GridPage() {
             Alert.alert('Erreur', 'Une erreur est survenue lors de la connexion. Veuillez réessayer.');
         }
     }, []);
-
-    if (riders.length % 2 !== 0) {
-        riders = [...riders, { id: 'dummy', isDummy: true }];
-    }
-
-    const renderItem = ({ item }) => <RiderCard item={item} isDummy={item.isDummy} />;
 
     return (
         <SafeAreaView style={commonStyles.container}>
@@ -249,32 +223,11 @@ export default function GridPage() {
                     style={styles.keyboardAvoidingView}
                 >
                     <View style={styles.modalContainer}>
-                        <View style={styles.modalView}>
-                            <View style={commonStyles.row}>
-                                <Image 
-                                    style={{
-                                        resizeMode: 'contain',
-                                        height: 100,
-                                        width: 100
-                                    }} 
-                                    source={require('../assets/Pack.png')} 
-                                />
-                                <Image 
-                                    style={{
-                                        resizeMode: 'contain',
-                                        height: 100,
-                                        width: 100
-                                    }} 
-                                    source={require('../assets/Pack.png')} 
-                                />
-                                <Image 
-                                    style={{
-                                        resizeMode: 'contain',
-                                        height: 100,
-                                        width: 100
-                                    }} 
-                                    source={require('../assets/Pack.png')} 
-                                />
+                        {rewardRiders.length != 0 && <View style={styles.modalView2}>
+                            <View style={[commonStyles.row]}>
+                                <RiderCard item={rewardRiders[0]} isDummy={false}/>
+                                <RiderCard item={rewardRiders[1]} isDummy={false}/>
+                                <RiderCard item={rewardRiders[2]} isDummy={false}/>
                             </View>
                             <View style={commonStyles.margin5Top}>
                                 <ModalButton
@@ -282,7 +235,7 @@ export default function GridPage() {
                                     onPress={handleCancel2}
                                 />
                             </View>
-                        </View>
+                        </View>}
                     </View>
                 </KeyboardAvoidingView>
             </Modal>
@@ -291,76 +244,32 @@ export default function GridPage() {
 }
 
 const styles = StyleSheet.create({
+    keyboardAvoidingView: {
+        flex: 1,
+    },
     modalContainer: {
-        flexGrow: 1,
+        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
     },
     modalView: {
+        flex: 1,
         backgroundColor: colors.whiteText,
         borderRadius: 30,
         width: '98%',
         maxHeight: '80%', // Limiter la hauteur maximale du modal
         padding: '5%',
     },
-    keyboardAvoidingView: {
+    modalView2: {
         flex: 1,
-    },
-    bottomBanner: {
-        position: "absolute",
-        bottom: 0
-    },
-    card: {
+        backgroundColor: colors.whiteText,
+        borderRadius: 30,
+        width: '98%',
+        maxHeight: '40%', // Limiter la hauteur maximale du modal
         padding: '5%',
-        borderRadius: 20,
-        alignItems: 'center',
-        margin: '2%',
-        flex: 1,
-        justifyContent: 'center',
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.3,
-        shadowRadius: 3,
-        elevation: 5,
-        opacity: 1,
-    },
-    dummyCard: {
-        backgroundColor: 'transparent',
-        borderWidth: 0,
-    },
-    imageContainer: {
-        width: 120,
-        height: 200,
-        borderRadius: 20,
-        overflow: 'hidden',
-        marginBottom: 10,
-        borderWidth: 2,
-        borderColor: '#fff',
-    },
-    image: {
-        width: '100%',
-        height: '100%',
     },
     text: {
         color: colors.dark,
         fontWeight: 'bold',
-    },
-    gold: {
-        backgroundColor: '#ccb557', // Jaune doré
-        borderWidth: 2,
-        borderColor: '#937829', // Teinte de bordure dorée
-    },
-    silver: {
-        backgroundColor: '#bdbdbd', // Gris argenté
-        borderWidth: 2,
-        borderColor: '#878787', // Teinte de bordure argentée
-    },
-    bronze: {
-        backgroundColor: '#d7a87e', // Brun bronze
-        borderWidth: 2,
-        borderColor: '#5e3819', // Teinte de bordure bronze
-    },
-    flatListContainer: {
-        flex: 1,
     },
 });

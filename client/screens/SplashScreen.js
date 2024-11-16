@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 import { View, Image, StyleSheet, ActivityIndicator } from 'react-native';
+import { LogoMain } from '../components';
+import colors from '../constants/colors';
 
 export default function SplashScreen({ navigation }) {
   // Après un délai de 3 secondes, redirigez l'utilisateur vers l'écran de connexion
@@ -11,10 +13,8 @@ export default function SplashScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      {/* Logo de l'application */}
-      <Image source={require('../assets/logo.png')} style={styles.logo} />
-      {/* Vous pouvez ajouter ici une animation de chargement si vous le souhaitez */}
-      <ActivityIndicator size="large" color="#F2C238" />
+      <LogoMain />
+      <ActivityIndicator size="large" color={colors.theme} />
     </View>
   );
 }
