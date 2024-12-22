@@ -1,7 +1,10 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { StyleSheet, ImageBackground } from 'react-native';
+import { View } from 'react-native';
 import { MyContextProvider } from './context/MyContext';
+import { commonStyles } from './styles/GlobalStyles';
+
+import { Header } from './components';
 
 import LoginPage from './pages/LoginPage';
 import SigninPage from './pages/SigninPage';
@@ -14,128 +17,103 @@ import CardsPage from './pages/CardsPage';
 import CategoryCardsPage from './pages/CategoryCardsPage';
 import CrossWordsPage from './pages/CrossWordsPage';
 import CrossWordPage from './pages/CrossWordPage';
-
-const image = require('./assets/Fond.jpg');
+import CardsRewardPage from './pages/CardsRewardPage';
+import GamesPage from './pages/GamesPage';
+import CardsChooseTypePage from './pages/CardsChooseTypePage';
 
 const Stack = createStackNavigator();
 
+const noBackButtonScreens = ['Home', 'SplashScreen', 'Login', 'Signin', 'CardsReward'];
+
 function App() {
+  
   return (
     <MyContextProvider>
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen 
-            name='SplashScreen' 
-            component={SplashScreen}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen 
-            name='SplashScreenWait' 
-            component={SplashScreenWait}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen 
-            name='Login' 
-            options={{ headerShown: false }}
+      <View style={commonStyles.flex1}>
+        <NavigationContainer>
+          <Stack.Navigator
+            screenOptions={{
+              header: ({ navigation, route }) => (
+                <Header
+                    onProfilePress={() => navigation.navigate('Profile')}
+                    showBackButton={!noBackButtonScreens.includes(route.name)}
+                />
+              ),
+          }}
           >
-            {({ navigation, route }) => (
-              <ImageBackground source={image} style={styles.image} resizeMode="cover">
-                <LoginPage navigation={navigation} route={route} />
-              </ImageBackground>
-            )}
-          </Stack.Screen>
-          <Stack.Screen 
-            name='Signin' 
-            options={{ headerShown: false }}
-          >
-            {({ navigation, route }) => (
-              <ImageBackground source={image} style={styles.image} resizeMode="cover">
-                <SigninPage navigation={navigation} route={route} />
-              </ImageBackground>
-            )}
-          </Stack.Screen>
-          <Stack.Screen 
-            name='Home' 
-            options={{ headerShown: false }}
-          >
-            {({ navigation, route }) => (
-              <ImageBackground source={image} style={styles.image} resizeMode="cover">
-                <HomePage navigation={navigation} route={route} />
-              </ImageBackground>
-            )}
-          </Stack.Screen>
-          <Stack.Screen 
-            name='Grids' 
-            options={{ headerShown: false }}
-          >
-            {({ navigation, route }) => (
-              <ImageBackground source={image} style={styles.image} resizeMode="cover">
-                <GridsPage navigation={navigation} route={route} />
-              </ImageBackground>
-            )}
-          </Stack.Screen>
-          <Stack.Screen 
-            name='Grid' 
-            options={{ headerShown: false }}
-          >
-            {({ navigation, route }) => (
-              <ImageBackground source={image} style={styles.image} resizeMode="cover">
-                <GridPage navigation={navigation} route={route} />
-              </ImageBackground>
-            )}
-          </Stack.Screen>
-          <Stack.Screen 
-            name='Cards' 
-            options={{ headerShown: false }}
-          >
-            {({ navigation, route }) => (
-              <ImageBackground source={image} style={styles.image} resizeMode="cover">
-                <CardsPage navigation={navigation} route={route} />
-              </ImageBackground>
-            )}
-          </Stack.Screen>
-          <Stack.Screen 
-            name='CategoryCards' 
-            options={{ headerShown: false }}
-          >
-            {({ navigation, route }) => (
-              <ImageBackground source={image} style={styles.image} resizeMode="cover">
-                <CategoryCardsPage navigation={navigation} route={route} />
-              </ImageBackground>
-            )}
-          </Stack.Screen>
-          <Stack.Screen 
-            name='CrossWords' 
-            options={{ headerShown: false }}
-          >
-            {({ navigation, route }) => (
-              <ImageBackground source={image} style={styles.image} resizeMode="cover">
-                <CrossWordsPage navigation={navigation} route={route} />
-              </ImageBackground>
-            )}
-          </Stack.Screen>
-          <Stack.Screen 
-            name='CrossWord' 
-            options={{ headerShown: false }}
-          >
-            {({ navigation, route }) => (
-              <ImageBackground source={image} style={styles.image} resizeMode="cover">
-                <CrossWordPage navigation={navigation} route={route} />
-              </ImageBackground>
-            )}
-          </Stack.Screen>
-        </Stack.Navigator>
-      </NavigationContainer>
+            <Stack.Screen a
+              name="SplashScreen" 
+              component={SplashScreen} 
+              options={{ headerShown: false }} 
+            />
+            <Stack.Screen 
+              name="SplashScreenWait" 
+              component={SplashScreenWait} 
+              options={{ headerShown: false }} 
+            />
+            <Stack.Screen 
+              name="Login" 
+              component={LoginPage} 
+              options={{ headerShown: false }} 
+            />
+            <Stack.Screen 
+              name="Signin" 
+              component={SigninPage} 
+              options={{ headerShown: false }} 
+            />
+            <Stack.Screen 
+              name="Home" 
+              component={HomePage} 
+            />
+            <Stack.Screen 
+              name="Games" 
+              component={GamesPage} 
+            />
+            <Stack.Screen 
+              name="CardsChooseType" 
+              component={CardsChooseTypePage}  
+            />
+            <Stack.Screen 
+              name="Grids" 
+              component={GridsPage}
+              options={{ headerShown: false }}  
+            />
+            <Stack.Screen 
+              name="Grid" 
+              component={GridPage} 
+              options={{ headerShown: false }} 
+            />
+            <Stack.Screen 
+              name="Cards" 
+              component={CardsPage} 
+              options={{ headerShown: false }} 
+            />
+            <Stack.Screen 
+              name="CardsReward" 
+              component={CardsRewardPage} 
+              options={{ headerShown: false }} 
+            />
+            <Stack.Screen 
+              name="CategoryCards" 
+              component={CategoryCardsPage} 
+              options={{ headerShown: false }} 
+            />
+            <Stack.Screen 
+              name="CrossWords" 
+              component={CrossWordsPage} 
+              options={{ headerShown: false }} 
+            />
+            <Stack.Screen 
+              name="CrossWord" 
+              component={CrossWordPage} 
+              options={{ headerShown: false }} 
+
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </View>
     </MyContextProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  image: {
-    flex: 1,
-    height: '100%',
-    width: '100%',
-  },
-});
 
 export default App;

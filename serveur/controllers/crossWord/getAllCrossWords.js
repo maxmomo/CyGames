@@ -61,7 +61,6 @@ const getAllCrossWords = async (req, res) => {
             return structuredCrossWord;
         });
 
-        console.log(structuredCrossWords)
         res.json(structuredCrossWords);
     } catch (error) {
         console.error('Erreur lors de la récupération des mots croisés:', error);

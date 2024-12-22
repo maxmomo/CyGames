@@ -14,7 +14,7 @@ export default function SplashScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <LogoMain />
-      <ActivityIndicator size="large" color={colors.theme} />
+      <ActivityIndicator color={colors.theme} />
     </View>
   );
 }

@@ -1,12 +1,14 @@
-import React, { useRef } from 'react';
-import { View, TextInput, StyleSheet, Animated } from 'react-native';
+import React, { useRef, useState } from 'react';
+import { TextInput, StyleSheet, Animated } from 'react-native';
 import colors from '../../constants/colors';
 
 export default function AnimatedTextInput(props) {
     const borderColorAnim = useRef(new Animated.Value(0)).current;
     const scaleAnim = useRef(new Animated.Value(1)).current;
+    const [placeholderColor, setPlaceholderColor] = useState(colors.grey);
 
     const handleFocus = () => {
+        setPlaceholderColor(colors.theme); 
         Animated.parallel([
             Animated.timing(borderColorAnim, {
                 toValue: 1, 
@@ -21,6 +23,7 @@ export default function AnimatedTextInput(props) {
     };
 
     const handleBlur = () => {
+        setPlaceholderColor(colors.grey); 
         Animated.parallel([
             Animated.timing(borderColorAnim, {
                 toValue: 0,
@@ -36,7 +39,7 @@ export default function AnimatedTextInput(props) {
 
     const borderColor = borderColorAnim.interpolate({
         inputRange: [0, 0.5, 1],
-        outputRange: [colors.whiteText, colors.background, colors.theme]
+        outputRange: [colors.grey, colors.theme_light, colors.theme]
     });
 
     return (
@@ -45,7 +48,7 @@ export default function AnimatedTextInput(props) {
                 style={styles.input}
                 keyboardType={props.type}
                 placeholder={props.placeholder}
-                placeholderTextColor={colors.whiteText}
+                placeholderTextColor={placeholderColor}
                 value={props.value}
                 onChangeText={props.onChangeText}
                 secureTextEntry={props.secureTextEntry}
@@ -59,13 +62,13 @@ export default function AnimatedTextInput(props) {
 const styles = StyleSheet.create({
     inputWrapper: {
         width: '80%',
-        borderWidth: 2,
+        borderBottomWidth: 3,
         borderRadius: 20,
-        marginVertical: 10,
+        marginVertical: '2%',
     },
     input: {
         padding: '3%',
-        color: colors.whiteText,
+        color: colors.black,
         fontSize: 16,
     },
 });

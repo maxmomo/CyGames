@@ -6,13 +6,21 @@ const getUserRiders = async (req, res) => {
 
     try {
         const riders = await db.query(
-            "SELECT ri.* " +
-            "FROM userriders ur " +
-            "JOIN riders ri ON ri.id = ur.riderId " +
-            "JOIN teams t on ri.team_id = t.id " +
+            "SELECT ri.*, " +
+            "CASE " +
+            "WHEN ur.riderId IS NOT NULL THEN true " +
+            "ELSE false " +
+            "END AS posseded, " +
+            "CASE " +
+            "WHEN ri.picture IS NOT NULL AND ri.picture <> '' THEN ri.picture " +
+            "ELSE t.jersey " +
+            "END AS jersey " +
+            "FROM riders ri " +
+            "LEFT JOIN userriders ur ON ri.id = ur.riderId AND ur.userId = :user_id " +
+            "LEFT JOIN teams t on ri.team_id = t.id " +
             "WHERE " +
-            "t.status = 'WT' AND year = 2025 AND " +
-            "ur.userId = :user_id",
+            "t.status = 'WT' AND year = 2025 " +
+            "ORDER BY ri.rank DESC",
             {
                 type: db.SELECT,
                 replacements: { 
@@ -31,6 +39,9 @@ const getUserRiders = async (req, res) => {
             "ORDER BY category",
             {
                 type: db.SELECT,
+                replacements: { 
+                    user_id: user_id,
+                },
             }
         );
 

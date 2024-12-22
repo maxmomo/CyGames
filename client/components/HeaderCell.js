@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
         borderColor: colors.theme,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: colors.backgroundLight,
+        backgroundColor: colors.card,
         aspectRatio: 1,
     },
 });

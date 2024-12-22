@@ -15,9 +15,10 @@ const getUserGridLines = async (req, res) => {
 
     try {
         const lines = await db.query(
-            "SELECT ri.*, ugl.index, ugl.correct " +
+            "SELECT ri.*, ugl.index, ugl.correct, ug.awarded " +
             "FROM usersgridslines ugl " +
             "JOIN riders ri ON ri.id = ugl.riderId " +
+            "JOIN usersgrids ug ON ug.userId = ugl.userId AND ug.gridId = ugl.gridId " +
             "WHERE " +
             "ugl.gridId = :grid_id AND " +
             "ugl.userId = :user_id",

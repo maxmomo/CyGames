@@ -47,4 +47,28 @@ const retryGrids = async (ip_address, user_id, grid_id) => {
     }
 };
 
-export { getAllGrids, retryGrids };
+/**
+ * Fonction qui permet de recompenser une grille.
+ *
+ * @param {string} ip_address - Adresse IP du serveur.
+ * @param {string} user_id - Id de l'utilisateur.
+ * @param {string} grid_id - Id de la grille.
+ * @returns {Promise<Object|boolean>} - Renvoie les données des coureurs créés
+ */
+const awardGrids = async (ip_address, user_id, grid_id, level) => {
+    try {
+        
+        const response = await axios({
+            method: 'get',
+            url: 'http://' + ip_address + ':3000/grids/award',
+            params: {user_id, grid_id, level}
+        });
+        
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+};
+
+export { getAllGrids, retryGrids, awardGrids };

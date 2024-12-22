@@ -9,7 +9,11 @@ const UsersGrids = sequelize.define('UsersGrids', {
   validated: {
     type: DataTypes.BOOLEAN,
     defaultValue: false
-  }
+  },
+  awarded: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
+  },
 });
 
 module.exports = UsersGrids;

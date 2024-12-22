@@ -1,66 +1,37 @@
-import { useRef } from 'react';
-import { TouchableOpacity, StyleSheet, Animated } from 'react-native';
+import { TouchableOpacity, StyleSheet, View, Text, Dimensions } from 'react-native';
+
+import colors from '../constants/colors';
+
+const windowWidth = Dimensions.get('window').width;
 
 export default function MenuCard(props) {
-    const scaleAnim = useRef(new Animated.Value(1)).current;
-
-    const handlePressIn = () => {
-        Animated.spring(scaleAnim, {
-            toValue: 0.9,
-            speed: 20,
-            useNativeDriver: true,
-        }).start();
-    };
-
-    const handlePressOut = () => {
-        Animated.spring(scaleAnim, {
-            toValue: 1,
-            speed: 30,
-            useNativeDriver: true,
-        }).start(() => {
-            if (props.onPress) {
-                props.onPress();
-            }
-        });
-    };
-
-    const getImageSource = () => {
-        if (props.name === 'Grille') {
-            return require('../assets/Grilles.png');
-        } else if (props.name === 'Carte') {
-            return require('../assets/Cartes.png');
-        } 
-        return require('../assets/Cartes.png'); // Une image par défaut si nécessaire
-    };
 
     return (
-        <TouchableOpacity
-            style={styles.card}
-            onPressIn={handlePressIn}
-            onPressOut={handlePressOut}
-        >
-            <Animated.Image
-                style={[
-                    styles.image,
-                    {
-                        transform: [{ scale: scaleAnim }]
-                    }
-                ]}
-                source={getImageSource()} 
-            />
+        <TouchableOpacity style={styles.card} onPress={props.onPress}>
+            <View style={styles.textView}>
+                <Text style={styles.text}>{props.name}</Text>
+            </View>
         </TouchableOpacity>
     );
 }
 
 const styles = StyleSheet.create({
     card: {
-        margin: '9%',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        margin: '2%',
+        width: windowWidth * 0.48, 
+        height: windowWidth * 0.60,
+        borderRadius: 20,
+        backgroundColor: colors.card
     },
-    image: {
-        resizeMode: 'contain',
-        width: 250,
-        height: 250
+    textView: {
+        position: 'absolute',
+        alignItems: 'center',
+    },
+    text: {
+        color: colors.backgroundLight,
+        fontSize: 28,
+        fontWeight: 'bold',
     }
 });

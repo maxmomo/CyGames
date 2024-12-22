@@ -10,6 +10,7 @@ const {setUserGridLines} = require('../controllers/gridLines/setUserGridLines');
 const {getUserGridLines} = require('../controllers/gridLines/getUserGridLines');
 const {checkUserGridLines} = require('../controllers/gridLines/checkUserGridLines');
 const {retryGrid} = require('../controllers/grid/retryGrid');
+const {awardGrid} = require('../controllers/grid/awardGrid');
 const {getUserRiders} = require('../controllers/riders/getUserRiders');
 const {createUserRiders} = require('../controllers/userRiders/createUserRiders');
 const {getAllCrossWords} = require('../controllers/crossWord/getAllCrossWords');
@@ -23,6 +24,7 @@ router.get("/riders/user", getUserRiders)
 
 router.get("/grids/all", getAllGrids)
 router.get('/grids/retry', retryGrid)
+router.get('/grids/award', awardGrid)
 
 router.get("/crossWords/all", getAllCrossWords)
 

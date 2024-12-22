@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { View, TouchableOpacity, StyleSheet, Image, Text } from 'react-native';
 import colors from '../constants/colors';
 import HeaderCell from './HeaderCell';
 
@@ -28,22 +28,16 @@ const Grid = ({ setModal1Visible, setSelectedCell, gridData, validated }) => {
                         >
                             {gridData[parseInt(rowItem.slice(1)) - 4] && gridData[parseInt(rowItem.slice(1)) - 4][parseInt(colItem.slice(1)) - 1] && (
                                 <>
-                                    <Image
-                                        source={{ uri: gridData[parseInt(rowItem.slice(1)) - 4][parseInt(colItem.slice(1)) - 1]['picture'] }}
-                                        style={[
-                                            styles.image,
-                                            gridData[parseInt(rowItem.slice(1)) - 4][parseInt(colItem.slice(1)) - 1]['correct'] === 1 && styles.dimmedImage
-                                        ]}
-                                    />
+                                    <Text>{gridData[parseInt(rowItem.slice(1)) - 4][parseInt(colItem.slice(1)) - 1]['name']}</Text>
                                     {gridData[parseInt(rowItem.slice(1)) - 4][parseInt(colItem.slice(1)) - 1]['correct'] === 2 && (
                                         <Image
-                                            source={require('../assets/check.png')} // Remplacez par le chemin réel de votre image de croix
+                                            source={require('../assets/check.png')} 
                                             style={styles.cross}
                                         />
                                     )}
                                     {gridData[parseInt(rowItem.slice(1)) - 4][parseInt(colItem.slice(1)) - 1]['correct'] === 1 && (
                                         <Image
-                                            source={require('../assets/cross.png')} // Remplacez par le chemin réel de votre image de croix
+                                            source={require('../assets/cross.png')} 
                                             style={styles.cross}
                                         />
                                     )}
@@ -59,13 +53,10 @@ const Grid = ({ setModal1Visible, setSelectedCell, gridData, validated }) => {
 
 const styles = StyleSheet.create({
     gridContainer: {
-        flex: 1,
-        marginHorizontal: '2%',
-        marginTop: '3%',
+        flex: 1
     },
     row: {
         flexDirection: 'row',
-        alignItems: 'stretch',
     },
     cell: {
         flex: 1,
@@ -73,18 +64,14 @@ const styles = StyleSheet.create({
         borderColor: colors.theme,
         justifyContent: 'center',
         alignItems: 'center',
-        aspectRatio: 1,
+        aspectRatio: 1
     },
     emptyCell: {
         flex: 1,
     },
-    image: {
-        width: '100%',
-        height: '100%',
-        resizeMode: 'contain',
-    },
+
     dimmedImage: {
-        opacity: 0.3, // Réduisez l'opacité pour rendre l'image plus faible en intensité
+        opacity: 0.3,
     },
     cross: {
         position: 'absolute',

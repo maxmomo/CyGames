@@ -164,7 +164,7 @@ const checkUserGridLines = async (req, res) => {
         await Usersgrids.update(
             { 
                 score: score,
-                validated: true 
+                validated: true,
             },
             {
                 where: {

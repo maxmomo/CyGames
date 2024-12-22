@@ -1,13 +1,13 @@
-import { useState, useCallback } from 'react';
-import { View, SafeAreaView, Alert } from 'react-native';
+import { useState } from 'react';
+import { View, SafeAreaView, Alert, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useMyContext } from '../context/MyContext';
 
-import { BasicButton, BasicTextInput, LogoMain } from '../components';
+import { BasicButton, BasicTextInput, Wave } from '../components';
 
 import { createUser } from '../api/user/api';
 
-import { commonStyles } from '../styles/GlobalStyles';
+import colors from '../constants/colors';
 
 export default function SigninPage() {
     
@@ -18,13 +18,7 @@ export default function SigninPage() {
     const [password, setPassword] = useState('');
     const [userName, setUsername] = useState('');
 
-    /**
-     * Déclenché lors de l'appuie sur le bouton Créer utilisateur 
-     ** Si pas d'email / mot de passe / nom d'utilisateur saisi => Message d'alerte
-     ** Si identifiants existent => Message d'alerte
-     ** Si identifiants n'existent pas => Navigation vers Home + création de l'utilisateur
-    **/
-    const onPressCreate = useCallback(async () => {
+    const onPressCreate = async () => {
         try {
             if (!email || !password || !userName) {
                 Alert.alert('Erreur', 'Veuillez entrer un email un nom d\'utilisateur et un mot de passe.');
@@ -41,51 +35,73 @@ export default function SigninPage() {
         } catch (error) {
             Alert.alert('Erreur', 'Une erreur est survenue lors de la connexion. Veuillez réessayer.');
         }
-    }, [email, password, userName]);
+    };
 
-    /**
-     * Déclenché lors de l'appuie sur le bouton se connecter
-     ** Navigation vers Login 
-    **/
-     const onPressLogin = useCallback(() => {
+    const onPressLogin = () => {
         navigation.navigate('Login');
-    }, [navigation]);
+    };
 
     return (
-        <SafeAreaView style={commonStyles.container}>
-            <View style={commonStyles.logoView}>
-                <LogoMain />
+        <SafeAreaView style={styles.container}>
+            {/* Section supérieure avec la vague */}
+            <View style={styles.topSection}>
+                <Wave />
             </View>
-            <View style={commonStyles.inputsView}>
-                <BasicTextInput 
-                    value={email} 
-                    onChangeText={setEmail} 
-                    placeholder={'Email'} 
-                    type={'email-address'} 
+
+            {/* Section de formulaire avec gestion du clavier */}
+            <KeyboardAvoidingView
+                style={styles.formSection}
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            >
+                <BasicTextInput
+                    value={email}
+                    onChangeText={setEmail}
+                    placeholder="Email"
+                    type="email-address"
                 />
                 <BasicTextInput 
                     value={userName} 
                     onChangeText={setUsername} 
                     placeholder={'Nom d\'utilisateur'} 
                 />
-                <BasicTextInput 
-                    value={password} 
-                    onChangeText={setPassword} 
-                    placeholder={'Mot de passe'} 
-                    type={'visible-password'} 
-                    secureTextEntry={true} 
+                <BasicTextInput
+                    value={password}
+                    onChangeText={setPassword}
+                    placeholder="Mot de passe"
+                    secureTextEntry
                 />
-            </View>
-            <View style={commonStyles.buttonsView}>
-                <BasicButton 
-                    text={'Créer utilisateur'} 
-                    onPress={onPressCreate} 
-                />
-                <BasicButton 
-                    text={'Se connecter'} 
-                    onPress={onPressLogin} 
-                />
+            </KeyboardAvoidingView>
+
+            {/* Section de bouton */}
+            <View style={styles.buttonSection}>
+                <BasicButton text="Créer utilisateur" onPress={onPressCreate} />
+                <BasicButton text="Se connecter" onPress={onPressLogin} />
             </View>
         </SafeAreaView>
     );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: colors.background
+    },
+    topSection: {
+        backgroundColor: colors.top, 
+        flex: 1
+    },
+    wave: {
+        position: 'absolute',
+        bottom: 0,
+    },
+    formSection: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    buttonSection: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+});

@@ -34,6 +34,7 @@ const getUserGridLines = async (ip_address, user_id, grid_id) => {
  * @returns {Promise<Object|boolean>} - Renvoie OK
  */
 const setUserGridLines = async (ip_address, user_id, grid_id, grid_datas) => {
+
     try {
         const response = await axios({
             method: 'get',

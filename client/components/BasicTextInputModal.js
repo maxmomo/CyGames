@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
         borderColor: colors.theme
     },
     suggestionsContainer: {
-        backgroundColor: colors.whiteText,
+        backgroundColor: colors.top,
         borderRadius: 30,
         maxHeight: '70%',
     },

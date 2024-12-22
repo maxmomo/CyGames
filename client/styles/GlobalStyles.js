@@ -34,7 +34,7 @@ const commonStyles = StyleSheet.create({
         fontSize: 12
     },
     text13: {
-        color: colors.whiteText,
+        color: colors.black,
         fontSize: 13
     },
     text13Inv: {
@@ -50,7 +50,7 @@ const commonStyles = StyleSheet.create({
         fontSize: 24
     },
     text14: {
-        color: colors.whiteText,
+        color: colors.black,
         fontSize: 14
     },
     text16: {
@@ -82,7 +82,7 @@ const commonStyles = StyleSheet.create({
         fontSize: 23
     },
     text24: {
-        color: colors.whiteText,
+        color: colors.black,
         fontSize: 24
     },
     greenText: {

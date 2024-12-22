@@ -14,11 +14,11 @@ const SET_CROSSWORD = 'SET_CROSSWORD';
 export const MyContextProvider = ({ children }) => {
     const initialState = {
         user: '',
-        grid: '',
+        grid: {awarded: 0, validated: 0},
         crossWord: '',
         riders: [],
         user_riders: [],
-        ip_adress: '192.168.1.125'
+        ip_adress: '192.168.1.24'
     };
 
     const reducer = (state, action) => {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { TouchableOpacity, FlatList, StyleSheet, Text, SafeAreaView, View, Image, Alert } from 'react-native';
+import { TouchableOpacity, StyleSheet, Text, SafeAreaView, View, Alert } from 'react-native';
 import { useMyContext } from '../context/MyContext';
 import { useNavigation } from '@react-navigation/native';
 import { getUserRiders } from '../api/riders/api';
@@ -31,9 +31,9 @@ export default function CategoryCardsPage() {
             setSilver(data[data.length - 2]);
             setBronze(data[data.length - 1]);
             
-            const countGold = data.slice(0, -3).filter(rider => rider.category === 1).length;
-            const countSilver = data.slice(0, -3).filter(rider => rider.category === 2).length;
-            const countBronze = data.slice(0, -3).filter(rider => rider.category === 3).length;
+            const countGold = data.slice(0, -3).filter(rider => rider.category === 1 && rider.posseded == true).length;
+            const countSilver = data.slice(0, -3).filter(rider => rider.category === 2 && rider.posseded == true).length;
+            const countBronze = data.slice(0, -3).filter(rider => rider.category === 3 && rider.posseded == true).length;
 
             setUserGold(countGold);
             setUserSilver(countSilver);

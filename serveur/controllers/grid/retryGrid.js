@@ -26,11 +26,7 @@ const retryGrid = async (req, res) => {
         }
     );
 
-
-   
-
     res.json('Ok')
 };
-
 
 module.exports = {retryGrid};

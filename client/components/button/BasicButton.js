@@ -44,14 +44,13 @@ export default function BasicButton(props) {
 
     const animatedBackgroundColor = colorAnim.interpolate({
         inputRange: [0, 1],
-        outputRange: [colors.theme, colors.whiteText], 
+        outputRange: [colors.theme, colors.theme_light], 
     });
 
     return (
         <TouchableOpacity
             onPressIn={handlePressIn}
             onPressOut={handlePressOut}
-            onPress={props.onPress}
             style={styles.button}
         >
             <Animated.View
@@ -76,9 +75,8 @@ export default function BasicButton(props) {
 const styles = StyleSheet.create({
     button: {
         borderRadius: 30,
-        margin: '1%',
         padding: '2%',
-        width: '60%',
+        width: '80%',
     },
     buttonText: {
         color: colors.background,

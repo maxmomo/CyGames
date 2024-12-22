@@ -8,7 +8,7 @@ export default function SplashScreenWait() {
       {/* Logo de l'application */}
       <Image source={require('../assets/logo.png')} style={styles.logo} />
       {/* Vous pouvez ajouter ici une animation de chargement si vous le souhaitez */}
-      <ActivityIndicator size="large" color="#F2C238" />
+      <ActivityIndicator size="" color="#F2C238" />
     </View>
   );
 }
