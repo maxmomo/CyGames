@@ -16,16 +16,21 @@ export default function HomePage() {
     const onPressCards = () => {
         navigation.navigate('CardsChooseType');
     };
+
+    const onPressExchange = () => {
+        navigation.navigate('ExchangeChoose');
+    };
     
     return (
         <SafeAreaView style={commonStyles.container}>
             <View style={[commonStyles.row, commonStyles.margin2Top]}>
                 <View style={commonStyles.flex1}>
                     <MenuCard name="Mini jeux" onPress={onPressGames} />
+                    <MenuCard name="Echanges" onPress={onPressExchange} />
                 </View>
                 <View style={commonStyles.flex1}>
                     <MenuCard name="Cartes" onPress={onPressCards} />
-                    {/* <MenuCard name="A implémenter" /> */}
+                    <MenuCard name="Packs" onPress={onPressExchange} />
                 </View>
             </View>
         </SafeAreaView>

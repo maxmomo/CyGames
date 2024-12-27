@@ -3,7 +3,6 @@ import { FlatList, SafeAreaView, View } from 'react-native';
 import { useMyContext } from '../context/MyContext';
 import { useNavigation } from '@react-navigation/native';
 
-import Header from '../components/Header';
 import GameCard from '../components/GameCard';
 
 import { getAllCrossWords } from '../api/crossWord/api';
@@ -45,7 +44,6 @@ export default function CrossWordsPage() {
 
     return (
         <SafeAreaView style={commonStyles.container}>
-            <Header is_navigation={true} />
             <View>
                 <FlatList
                     data={crossWords}

@@ -18,8 +18,8 @@ const setUserGridLines = async (req, res) => {
             for (let j = 0; j < grid_datas[i].length; j++) {
                 const row = grid_datas[i][j]['row'].toString(); // Convertir en chaîne de caractères
                 const col = grid_datas[i][j]['col'].toString(); // Convertir en chaîne de caractères
-                const rider_id = grid_datas[i][j]['id'];
-    
+                const rider_id = grid_datas[i][j]['rider_id'];
+                
                 // Calculer l'index
                 const index = calculateIndex(parseInt(row), parseInt(col));
     

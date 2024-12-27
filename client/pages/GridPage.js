@@ -3,7 +3,6 @@ import { Text, SafeAreaView, View, Alert } from 'react-native';
 import { useMyContext } from '../context/MyContext';
 import { useNavigation } from '@react-navigation/native';
 
-import Header from '../components/Header';
 import { BasicButton } from '../components';
 import Grid from '../components/Grid';
 import StarIcons from '../components/StarIcons';
@@ -11,17 +10,15 @@ import StarIcons from '../components/StarIcons';
 import GridInputModal from '../modals/GridInputModal';
 
 import { checkUserGridLines, getUserGridLines, setUserGridLines } from '../api/gridLine/api';
-import { retryGrids, awardGrids } from '../api/grid/api';
-import { createUserRiders } from '../api/userRiders/api';
+import { retryGrids, awardGrids, getGrid } from '../api/grid/api';
 
 import { commonStyles } from '../styles/GlobalStyles';
 
-
-export default function GridPage() {
-    const { state, dispatch } = useMyContext();
+export default function GridPage({ route }) {
+    const { state } = useMyContext();
     const navigation = useNavigation();
+    const { grid_id } = route.params;
 
-    const grid = state.grid || {};
     const user = state.user || {};
     const riders = state.riders || [];
 
@@ -30,23 +27,36 @@ export default function GridPage() {
     const [suggestions, setSuggestions] = useState([]);
     const [showSuggestions, setShowSuggestions] = useState(false);
     const [selectedCell, setSelectedCell] = useState({ row: null, col: null });
-    const [gridData, setGridData] = useState([[], [], []]);
-
-    const isValidated = grid.validated === true || grid.validated === 1;
-    const isAwarded = grid.awarded === true || grid.awarded === 1;
+    const [gridDataLines, setGridDataLines] = useState([]);
+    const [gridData, setGridData] = useState(null);
+    const [gridKey, setGridKey] = useState(0);
+    const [isValidated, setIsValidated] = useState(false);
+    const [isAwarded, setIsAwarded] = useState(false);
 
     useEffect(() => {
+        getGridEffect();
         getGridLinesEffect();
-    }, [state.grid]);
+    }, [onPressValidate, onPressRetry]);
 
     const getGridLinesEffect = useCallback(async () => {
         try {
-            const data = await getUserGridLines(state.ip_adress, user.id, grid.id);
-            setGridData(data);
+            const data = await getUserGridLines(state.ip_adress, user.id, grid_id);
+            setGridDataLines(data || []);
         } catch (error) {
             Alert.alert('Erreur', 'Une erreur est survenue lors de la connexion. Veuillez réessayer.');
         }
-    }, [state.ip_adress, user.id, grid.id]);
+    }, [state.ip_adress, user.id, grid_id]);
+
+    const getGridEffect = useCallback(async () => {
+        try {
+            const data = await getGrid(state.ip_adress, grid_id, user.id);
+            setGridData(data || { level: 'N/A', score: 0 });
+            setIsValidated(data?.validated === true || data?.validated === 1);
+            setIsAwarded(data?.awarded === true || data?.awarded === 1);
+        } catch (error) {
+            Alert.alert('Erreur', 'Une erreur est survenue lors de la connexion. Veuillez réessayer.');
+        }
+    }, [state.ip_adress, user.id, grid_id]);
 
     const handleTextInputChange = (text) => {
         setTextInputValue(text);
@@ -70,8 +80,8 @@ export default function GridPage() {
     const handleValidate = () => {
         const item = riders.find(item => item.name === textInputValue);
         if (item && selectedCell.row !== null && selectedCell.col !== null) {
-            const updatedItem = { ...item, row: selectedCell.row, col: selectedCell.col };
-            setGridData(prevGridData => {
+            const updatedItem = { ...item, row: selectedCell.row, col: selectedCell.col, rider_id: item.id };
+            setGridDataLines(prevGridData => {
                 const updatedGridData = [...prevGridData];
                 updatedGridData[selectedCell.row][selectedCell.col] = updatedItem;
                 return updatedGridData;
@@ -88,13 +98,13 @@ export default function GridPage() {
     };
 
     const handleReward = async () => {
-        if (!isAwarded) {
+        if (isValidated) {
             try {
-                const datas = await awardGrids(state.ip_adress, user.id, grid.id, grid.score);
-                const updatedGrid = { ...grid, awarded: 1 };
-                dispatch({ type: 'SET_GRID', payload: updatedGrid });
-                navigation.navigate('CardsReward', { datas });
+                const datas = await awardGrids(state.ip_adress, user.id, grid_id, gridData.score);
+                navigation.navigate('CardsReward', { datas: datas });
+                setIsAwarded(true);
             } catch (error) {
+                console.error('Error rewarding grid:', error);
                 Alert.alert('Erreur', 'Une erreur est survenue lors de la connexion. Veuillez réessayer.');
             }
         }
@@ -102,22 +112,24 @@ export default function GridPage() {
 
     const onPressValidate = useCallback(async () => {
         try {
-            await setUserGridLines(state.ip_adress, user.id, grid.id, gridData);
-            const res = await checkUserGridLines(state.ip_adress, user.id, grid.id, gridData);
-            const updatedGrid = { ...grid, score: res.score, validated: true };
-            dispatch({ type: 'SET_GRID', payload: updatedGrid });
+            await setUserGridLines(state.ip_adress, user.id, grid_id, gridDataLines);
+            await checkUserGridLines(state.ip_adress, user.id, grid_id, gridDataLines);
+            const updatedGridLines = await getUserGridLines(state.ip_adress, user.id, grid_id);
+            setGridDataLines(updatedGridLines || []);
+            const data = await getGrid(state.ip_adress, grid_id, user.id);
+            setGridData(data || { level: 'N/A', score: 0 });
+            setIsValidated(true);
         } catch (error) {
             Alert.alert('Erreur', 'Une erreur est survenue lors de la connexion. Veuillez réessayer.');
         }
-    }, [gridData]);
+    }, [gridDataLines]);
 
     const onPressRetry = useCallback(async () => {
         try {
-            await retryGrids(state.ip_adress, user.id, grid.id);
-            const data = await getUserGridLines(state.ip_adress, user.id, grid.id);
-            setGridData(data);
-            const updatedGrid = { ...grid, validated: 0 };
-            dispatch({ type: 'SET_GRID', payload: updatedGrid });
+            await retryGrids(state.ip_adress, user.id, grid_id);
+            const updatedGridLines = await getUserGridLines(state.ip_adress, user.id, grid_id);
+            setGridDataLines(updatedGridLines || []);
+            setIsValidated(false);
         } catch (error) {
             Alert.alert('Erreur', 'Une erreur est survenue lors de la connexion. Veuillez réessayer.');
         }
@@ -125,17 +137,23 @@ export default function GridPage() {
 
     return (
         <SafeAreaView style={commonStyles.container}>
-            <Header is_navigation={true} />
-            <View style={[commonStyles.center, commonStyles.row, { flex: 1 }]}>
-                <Text style={[commonStyles.text24, commonStyles.bold]}>{`Niveau ${grid.level || ''} :`}</Text>
-                <StarIcons score={grid.score || 0} />
-            </View>
+            {gridData && gridDataLines && (
+                <View style={[commonStyles.center, commonStyles.row, { flex: 1 }]}>
+                    <Text style={[commonStyles.text24, commonStyles.bold]}>
+                        {`Niveau ${gridData?.level ?? 'Indéfini'} :`}
+                    </Text>
+                    <StarIcons score={gridData?.score || 0} />
+                </View>
+            )}
             <View style={{ flex: 6 }}>
                 <Grid
                     setModal1Visible={setModal1Visible}
                     setSelectedCell={setSelectedCell}
+                    gridDataLines={gridDataLines}
+                    validated={isValidated}
+                    awarded={isAwarded}
                     gridData={gridData}
-                    validated={!!grid.validated}
+                    key={gridKey}
                 />
             </View>
             <View style={[commonStyles.center, { flex: 2 }]}>
@@ -145,7 +163,7 @@ export default function GridPage() {
             </View>
             <GridInputModal
                 visible={modal1Visible}
-                onClose={setModal1Visible}
+                onClose={() => setModal1Visible(false)}
                 textInputValue={textInputValue}
                 handleTextInputChange={handleTextInputChange}
                 suggestions={suggestions}

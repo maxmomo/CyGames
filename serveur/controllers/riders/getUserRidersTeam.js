@@ -1,12 +1,12 @@
 const db = require("../../config/database");
 
-const getUserRiders = async (req, res) => {
+const getUserRidersTeam = async (req, res) => {
     const params = req.query;
     const user_id = params['user_id'];
 
     try {
         const riders = await db.query(
-            "SELECT ri.*, " +
+            "SELECT ri.*, ur.count, " +
             "CASE " +
             "WHEN ur.riderId IS NOT NULL THEN true " +
             "ELSE false " +
@@ -30,24 +30,26 @@ const getUserRiders = async (req, res) => {
         );
 
         const stat = await db.query(
-            "SELECT COUNT(*) as count " +
+            "SELECT COUNT(*) as count, t.id as team_id, t.name " +
             "FROM riders ri " +
             "JOIN teams t on ri.team_id = t.id " +
             "WHERE " +
             "t.status = 'WT' AND year = 2025 " +
-            "GROUP BY category " +
-            "ORDER BY category",
+            "GROUP BY t.id " +
+            "ORDER BY t.id",
             {
-                type: db.SELECT,
-                replacements: { 
-                    user_id: user_id,
-                },
+                type: db.SELECT
             }
         );
 
-        riders[0].push(stat[0][0]['count'])
-        riders[0].push(stat[0][1]['count'])
-        riders[0].push(stat[0][2]['count'])
+        stat[0].forEach(teamStat => {
+            riders[0].push({
+                team_id: teamStat.team_id,
+                name: teamStat.name,
+                count: teamStat.count
+            });
+        });
+
 
         res.json(riders[0]);
     } catch (error) {
@@ -55,4 +57,4 @@ const getUserRiders = async (req, res) => {
     }
 };
 
-module.exports = { getUserRiders };
+module.exports = { getUserRidersTeam };

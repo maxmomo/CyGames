@@ -4,6 +4,16 @@ const createUserRiders = async (req, transaction) => {
     const params = req.query;
     const user_id = parseInt(params['user_id'], 10);
     const level = parseInt(params['level'], 10);
+    const type = params['type']
+    let number_riders = 0
+
+    console.log(level, type)
+
+    if (level < 4) {
+        number_riders = 4
+    } else if (level === 4) {
+        number_riders = 1
+    }
 
     if (isNaN(user_id) || isNaN(level)) {
         throw new Error("Invalid parameters: user_id and level must be numbers.");
@@ -15,6 +25,7 @@ const createUserRiders = async (req, transaction) => {
         // Fonction pour sélectionner la catégorie en fonction du niveau
         const selectCategory = () => {
             const rand = Math.random();
+
             if (level === 1) {
                 if (rand <= 0.01) return 1;
                 if (rand <= 0.10) return 2;
@@ -27,50 +38,68 @@ const createUserRiders = async (req, transaction) => {
                 if (rand <= 0.15) return 1;
                 if (rand <= 0.50) return 2;
                 return 3;
+            } else if (level === 4) {
+                if (type === 'silver') {
+                    return 2
+                } else if (type === 'gold') {
+                    return 1
+                } else if (type === 'new') {
+                    if (rand <= 0.33) return 1;
+                    if (rand <= 0.66) return 2;
+                    return 3;
+                }
             }
-            return 3; // Valeur par défaut
+            return 3;
         };
 
         // Sélection de 4 coureurs uniques
-        while (selectedRiders.length < 4) {
+        while (selectedRiders.length < number_riders) {
             const category = selectCategory();
-            console.log("Selected category:", category);
 
             if (!category) {
                 throw new Error("Category is undefined.");
             }
 
-            const [rider] = await db.query(
-                `SELECT ri.*, 
-                 CASE 
+            const queryBase = `
+                SELECT ri.*, COALESCE(ur.count, 0) + 1 AS count,  
+                CASE 
                     WHEN ri.picture IS NOT NULL AND ri.picture <> '' THEN ri.picture 
                     ELSE t.jersey 
-                 END AS jersey,
-                 1 as posseded
-                 FROM riders ri 
-                 JOIN teams t ON ri.team_id = t.id 
-                 WHERE t.status = 'WT' AND year = 2025 AND ri.category = ?
-                 ORDER BY RAND() 
-                 LIMIT 1`,
+                END AS jersey,
+                1 as posseded
+                FROM riders ri 
+                JOIN teams t ON ri.team_id = t.id 
+                LEFT JOIN userriders ur ON ur.userId = ? AND ur.riderID = ri.id
+                WHERE t.status = 'WT' AND year = 2025 AND ri.category = ?
+            `;
+
+            const queryCondition = type === 'new' 
+                ? `AND (ur.count IS NULL OR ur.count = 0)` 
+                : ``;
+
+            const queryOrder = `ORDER BY RAND() LIMIT 1`;
+
+            const [rider] = await db.query(
+                `${queryBase} ${queryCondition} ${queryOrder}`,
                 {
-                    replacements: [category],
+                    replacements: [user_id, category],
                     type: db.QueryTypes.SELECT,
-                    transaction
+                    transaction,
                 }
             );
 
-            if (rider && !selectedRiders.some(r => r.id === rider.id)) {
+            if (rider && !selectedRiders.some((r) => r.id === rider.id)) {
                 selectedRiders.push(rider);
             }
         }
 
         // Préparation des données pour insertion dans userriders
         const userRidersData = selectedRiders.map(rider => [
-            user_id,            // userId
-            rider.id,           // riderId
-            new Date(),         // createdAt
-            new Date(),         // updatedAt
-            1                   // count initialisé à 1
+            user_id,            
+            rider.id,           
+            new Date(),         
+            new Date(),         
+            1                   
         ]);
 
         // Insertion dans userriders avec gestion des doublons

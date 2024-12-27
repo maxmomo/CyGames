@@ -13,8 +13,8 @@ export default function CardsChooseTypePage() {
         navigation.navigate('CategoryCards');
     };
 
-    const onPressCrossWords = () => {
-        navigation.navigate('CrossWords');
+    const onPressTeams = () => {
+        navigation.navigate('TeamCards');
     };
     
     return (
@@ -24,7 +24,7 @@ export default function CardsChooseTypePage() {
                     <MenuCard name="Catégories" onPress={onPressCategory} />
                 </View>
                 <View style={commonStyles.flex1}>
-                    <MenuCard name="Equipes" onPress={onPressCategory} />
+                    <MenuCard name="Equipes" onPress={onPressTeams} />
                 </View>
             </View>
         </SafeAreaView>

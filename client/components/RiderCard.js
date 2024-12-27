@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react';
+import React, { memo } from 'react';
 import { StyleSheet, Text, View, Image, Dimensions } from 'react-native';
 import colors from '../constants/colors';
 import Flag from 'react-native-flags';
@@ -6,8 +6,7 @@ import Flag from 'react-native-flags';
 const { width, height } = Dimensions.get('window');
 
 
-const RiderCard = ({ item, isDummy, width, height }) => {
-    const [viewDimensions, setViewDimensions] = useState({ width: 0, height: 0 });
+const RiderCard = ({ item, isDummy, reward }) => {
     
     const jerseyImages = {
         arkea: require('../assets/teams/arkea.png'),
@@ -72,6 +71,19 @@ const RiderCard = ({ item, isDummy, width, height }) => {
             <View style={styles.textContainer}>
                 <Text style={[styles.text, { fontSize: 20 }]}>{item.name}</Text>
             </View>
+            {item.count !== null && (
+                <View style={styles.countContainer}>
+                    {reward && item.count === 1 ? (
+                        <Image 
+                            source={require('../assets/new.png')} 
+                            style={styles.newIcon} 
+                            resizeMode="contain" 
+                        />
+                    ) : (
+                        <Text style={styles.countText}>x {item.count}</Text>
+                    )}
+                </View>
+            )}
         </View>
     );
 };
@@ -152,6 +164,17 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 15,
     },
+    countContainer: {
+        position: 'absolute',
+        top: '2%',
+        left: '2%',
+        width: '18%',
+        height: '13%',
+        borderRadius: 20,
+        borderWidth: 2,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
     gold: {
         backgroundColor: '#ccb557',
         borderWidth: 2,
@@ -176,4 +199,8 @@ const styles = StyleSheet.create({
     bronzeBadge: {
         backgroundColor: '#AC9582', 
     },
+    newIcon: {
+    width: '100%',
+    height: '100%',
+},
 });

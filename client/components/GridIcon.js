@@ -3,97 +3,39 @@ import { View, Text, Image } from 'react-native';
 import { commonStyles } from '../styles/GlobalStyles';
 
 export default function Logo(props) {
-    const parts = props.additional.split('/');
-    const top = parts[0]
+    // Valider et extraire la donnée "top"
+    const parts = typeof props.additional === 'string' && props.additional.includes('/')
+        ? props.additional.split('/')
+        : ['N/A'];
+    const top = parts[0];
 
-    if (props.race === 'Tour de France') {
-        return (
-            <View>
-                <Image 
+    // Associer les courses aux images
+    const raceLogos = {
+        'Tour de France': require('../assets/Tour.png'),
+        'Giro d\'Italia': require('../assets/Giro.png'),
+        'La Vuelta ciclista a España': require('../assets/Vuelta.png'),
+        'Paris - Roubaix': require('../assets/Roubaix.png'),
+        'Liège - Bastogne - Liège': require('../assets/LBL.png'),
+        'Milano-Sanremo': require('../assets/MSR.png'),
+    };
+
+    const logoSource = raceLogos[props.race];
+
+    return (
+        <View>
+            {logoSource ? (
+                <Image
                     style={{
                         resizeMode: 'contain',
                         height: 50,
-                        width: 50
-                    }} 
-                    source={require('../assets/Tour.png')} 
+                        width: 50,
+                    }}
+                    source={logoSource}
                 />
-                <Text style={commonStyles.text14}>Top {top}</Text>
-            </View>
-        );
-    }
-    if (props.race === 'Giro d\'Italia') {
-        return (
-            <View>
-                <Image 
-                    style={{
-                        resizeMode: 'contain',
-                        height: 50,
-                        width: 50
-                    }} 
-                    source={require('../assets/Giro.png')} 
-                />
-                <Text style={commonStyles.text14}>Top {top}</Text>
-            </View>
-        );
-    }
-    if (props.race === 'La Vuelta ciclista a España') {
-        return (
-            <View>
-                <Image 
-                    style={{
-                        resizeMode: 'contain',
-                        height: 50,
-                        width: 50
-                    }} 
-                    source={require('../assets/Vuelta.png')} 
-                />
-                <Text style={commonStyles.text14}>Top {top}</Text>
-            </View>
-        );
-    }
-    if (props.race === 'Paris - Roubaix') {
-        return (
-            <View>
-                <Image 
-                    style={{
-                        resizeMode: 'contain',
-                        height: 50,
-                        width: 50
-                    }} 
-                    source={require('../assets/Roubaix.png')} 
-                />
-                <Text style={commonStyles.text14}>Top {top}</Text>
-            </View>
-        );
-    }
-    if (props.race === 'Liège - Bastogne - Liège') {
-        return (
-            <View>
-                <Image 
-                    style={{
-                        resizeMode: 'contain',
-                        height: 50,
-                        width: 50
-                    }} 
-                    source={require('../assets/LBL.png')} 
-                />
-                <Text style={commonStyles.text14}>Top {top}</Text>
-            </View>
-        );
-    }
-    if (props.race === 'Milano-Sanremo') {
-        return (
-            <View>
-                <Image 
-                    style={{
-                        resizeMode: 'contain',
-                        height: 50,
-                        width: 50
-                    }} 
-                    source={require('../assets/MSR.png')} 
-                />
-                <Text style={commonStyles.text14}>Top {top}</Text>
-            </View>
-        );
-    }
+            ) : (
+                <Text style={commonStyles.text14}>Image non disponible</Text>
+            )}
+            <Text style={commonStyles.text14}>Top {top || 'N/A'}</Text>
+        </View>
+    );
 }

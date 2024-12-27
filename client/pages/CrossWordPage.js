@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { SafeAreaView, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useMyContext } from '../context/MyContext';
-import Header from '../components/Header';
 import CrosswordInputModal from '../modals/CrossWordInputModal';
 import { commonStyles } from '../styles/GlobalStyles';
 import colors from '../constants/colors';
@@ -81,7 +80,6 @@ export default function CrossWordPage() {
 
     return (
         <SafeAreaView style={commonStyles.container}>
-            <Header is_navigation={true} />
             <View style={[commonStyles.center, commonStyles.row]}>
                 <Text style={[commonStyles.text24, commonStyles.bold]}>{'Niveau ' + crosswordData['level'] + ' : '}</Text>
                 <StarIcons score={crosswordData['score']} />
@@ -150,7 +148,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.theme, 
     },
     blackenedCell: {
-        backgroundColor: 'black',
+        backgroundColor: colors.card,
     },
     whitenedCell: {
         backgroundColor: 'white'

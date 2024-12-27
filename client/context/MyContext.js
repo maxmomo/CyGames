@@ -18,7 +18,7 @@ export const MyContextProvider = ({ children }) => {
         crossWord: '',
         riders: [],
         user_riders: [],
-        ip_adress: '192.168.1.24'
+        ip_adress: '192.168.1.125'
     };
 
     const reducer = (state, action) => {
@@ -26,7 +26,13 @@ export const MyContextProvider = ({ children }) => {
             case SET_USERNAME:
                 return { ...state, user: action.payload };
             case SET_GRID:
-                return { ...state, grid: action.payload };
+                return {...state,
+                            grid: {
+                                ...state.grid,
+                                ...action.payload, // Merge new grid data
+                            },
+                        };
+
             case SET_CROSSWORD:
                     return { ...state, crossWord: action.payload };
             case SET_RIDERS:

@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { TouchableOpacity, StyleSheet, Text, SafeAreaView, View, Alert } from 'react-native';
 import { useMyContext } from '../context/MyContext';
 import { useNavigation } from '@react-navigation/native';
-import { getUserRiders } from '../api/riders/api';
+import { getUserRidersCategory } from '../api/riders/api';
 import { commonStyles } from '../styles/GlobalStyles';
 import Header from '../components/Header';
 import colors from '../constants/colors';
@@ -10,8 +10,7 @@ import colors from '../constants/colors';
 export default function CategoryCardsPage() {
     const { state, dispatch } = useMyContext();
     const navigation = useNavigation();
-
-    const [riders, setRiders] = useState([]);
+    
     const [bronze, setBronze] = useState(0);
     const [silver, setSilver] = useState(0);
     const [gold, setGold] = useState(0);
@@ -23,9 +22,7 @@ export default function CategoryCardsPage() {
     
     const getRidersEffect = useCallback(async () => {
         try {
-            const data = await getUserRiders(state['ip_adress'], user_id);
-
-            setRiders(data.slice(0, -3));
+            const data = await getUserRidersCategory(state['ip_adress'], user_id);
             
             setGold(data[data.length - 3]);
             setSilver(data[data.length - 2]);
@@ -55,7 +52,6 @@ export default function CategoryCardsPage() {
 
     return (
         <SafeAreaView style={commonStyles.container}>
-            <Header is_navigation={true} />
             <View style={styles.container}>
                 <TouchableOpacity 
                     style={[styles.card, styles.gold]}
@@ -91,13 +87,7 @@ const styles = StyleSheet.create({
         height: '30%',
         borderRadius: 20,
         alignItems: 'center',
-        justifyContent: 'center',
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.3,
-        shadowRadius: 3,
-        elevation: 5,
-        opacity: 1,
+        justifyContent: 'center'
     },
     text: {
         color: colors.background,

@@ -20,6 +20,10 @@ import CrossWordPage from './pages/CrossWordPage';
 import CardsRewardPage from './pages/CardsRewardPage';
 import GamesPage from './pages/GamesPage';
 import CardsChooseTypePage from './pages/CardsChooseTypePage';
+import TeamsCardsPage from './pages/TeamsCardsPage';
+import ExchangeChoosePage from './pages/ExchangeChoosePage';
+import ExchangePage from './pages/ExchangePage';
+import ExchangeRiderSelectionPage from './pages/ExchangeRiderSelectionPage';
 
 const Stack = createStackNavigator();
 
@@ -74,39 +78,48 @@ function App() {
               component={CardsChooseTypePage}  
             />
             <Stack.Screen 
+              name="ExchangeChoose" 
+              component={ExchangeChoosePage}  
+            />
+            <Stack.Screen 
+              name="Exchange" 
+              component={ExchangePage}  
+            />
+            <Stack.Screen 
+              name="ExchangeRiderSelection" 
+              component={ExchangeRiderSelectionPage}  
+            />
+            <Stack.Screen 
               name="Grids" 
               component={GridsPage}
-              options={{ headerShown: false }}  
             />
             <Stack.Screen 
               name="Grid" 
               component={GridPage} 
-              options={{ headerShown: false }} 
             />
             <Stack.Screen 
               name="Cards" 
               component={CardsPage} 
-              options={{ headerShown: false }} 
             />
             <Stack.Screen 
               name="CardsReward" 
               component={CardsRewardPage} 
-              options={{ headerShown: false }} 
             />
             <Stack.Screen 
               name="CategoryCards" 
               component={CategoryCardsPage} 
-              options={{ headerShown: false }} 
+            />
+            <Stack.Screen 
+              name="TeamCards" 
+              component={TeamsCardsPage} 
             />
             <Stack.Screen 
               name="CrossWords" 
               component={CrossWordsPage} 
-              options={{ headerShown: false }} 
             />
             <Stack.Screen 
               name="CrossWord" 
               component={CrossWordPage} 
-              options={{ headerShown: false }} 
 
             />
           </Stack.Navigator>
