@@ -16,7 +16,11 @@ const User = sequelize.define('User', {
   },
   avatar: {
     type: DataTypes.TEXT('long'),
-  } 
+  },
+  credit: {
+    type: DataTypes.INTEGER,
+    defaultValue: 0
+  },
 });
 
 User.associate = (models) => {
@@ -30,6 +34,11 @@ User.associate = (models) => {
   });
   User.belongsToMany(models.Rider, {
     through: models.UserRiders,
+    foreignKey: 'userId',
+  });
+  console.log(models['UsersCrossWords'])
+  User.belongsToMany(models.CrossWord, {
+    through: models.UsersCrossWords,
     foreignKey: 'userId',
   });
 };

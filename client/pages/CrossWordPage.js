@@ -5,6 +5,8 @@ import CrosswordInputModal from '../modals/CrossWordInputModal';
 import { commonStyles } from '../styles/GlobalStyles';
 import colors from '../constants/colors';
 import StarIcons from '../components/StarIcons';
+import { BasicButton } from '../components';
+import CrossWord from '../components/CrossWord';
 
 const GRID_SIZE = 10;
 
@@ -80,38 +82,21 @@ export default function CrossWordPage() {
 
     return (
         <SafeAreaView style={commonStyles.container}>
-            <View style={[commonStyles.center, commonStyles.row]}>
-                <Text style={[commonStyles.text24, commonStyles.bold]}>{'Niveau ' + crosswordData['level'] + ' : '}</Text>
-                <StarIcons score={crosswordData['score']} />
+            <View style={[commonStyles.center, commonStyles.row, { flex: 1 }]}>
+                <Text style={[commonStyles.text24, commonStyles.bold]}>
+                    {`Niveau ${crosswordData?.level ?? 'Indéfini'} :`}
+                </Text>
+                <StarIcons score={crosswordData?.score || 0} />
             </View>
-            <View style={styles.gridContainer}>
-                {userGrid.map((row, rowIndex) => (
-                    <View key={rowIndex} style={styles.row}>
-                        {row.map((cell, colIndex) => {
-                            const cellStyle = [
-                                styles.cell,
-                                cell.spe === 1 && cell.finalValue !== '' && styles.highlightedCell,
-                                cell.finalValue === '' && styles.blackenedCell,
-                                cell.finalValue !== '' && cell.spe === 0 && styles.whitenedCell,
-                            ];
-                            return cell.spe === 1 ? (
-                                <TouchableOpacity
-                                    key={colIndex}
-                                    style={cellStyle}
-                                    onPress={() => onPressCell(cell, rowIndex, colIndex)}
-                                >
-                                    <Text style={styles.cellText}>{cell.visible ? cell.value : ''}</Text>
-                                </TouchableOpacity>
-                            ) : (
-                                <View key={colIndex} style={cellStyle}>
-                                    <Text style={styles.cellText}>{cell.visible ? cell.value : ''}</Text>
-                                </View>
-                            );
-                        })}
-                    </View>
-                ))}
+            <View style={{ flex: 6 }}>
+                <CrossWord 
+                    userGrid={userGrid} 
+                    onPressCell={onPressCell} 
+                />
             </View>
-
+            <View style={[commonStyles.center, { flex: 2 }]}>
+                <BasicButton text="Valider" />
+            </View>
             <CrosswordInputModal
                 visible={modalVisible}
                 onClose={handleModalClose}
@@ -125,35 +110,3 @@ export default function CrossWordPage() {
         </SafeAreaView>
     );
 }
-
-const styles = StyleSheet.create({
-    gridContainer: {
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 10,
-    },
-    row: {
-        flexDirection: 'row',
-    },
-    cell: {
-        width: 35,
-        height: 35,
-        borderWidth: 1,
-        borderColor: colors.theme,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    highlightedCell: {
-        backgroundColor: colors.theme, 
-    },
-    blackenedCell: {
-        backgroundColor: colors.card,
-    },
-    whitenedCell: {
-        backgroundColor: 'white'
-    },
-    cellText: {
-        color: colors.dark,
-    }
-});

@@ -15,6 +15,7 @@
     "axios": "^1.7.9",
     "chart.js": "^4.4.7",
     "expo": "^52.0.18",
+    "expo-ads-admob": "^13.0.0",
     "expo-permissions": "~14.4.0",
     "express": "^4.21.2",
     "mysql2": "^3.11.5",

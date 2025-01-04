@@ -20,6 +20,10 @@ export default function HomePage() {
     const onPressExchange = () => {
         navigation.navigate('ExchangeChoose');
     };
+
+    const onPressPack = () => {
+        navigation.navigate('PackChoose');
+    };
     
     return (
         <SafeAreaView style={commonStyles.container}>
@@ -29,8 +33,8 @@ export default function HomePage() {
                     <MenuCard name="Echanges" onPress={onPressExchange} />
                 </View>
                 <View style={commonStyles.flex1}>
-                    <MenuCard name="Cartes" onPress={onPressCards} />
-                    <MenuCard name="Packs" onPress={onPressExchange} />
+                    <MenuCard name="Collection" onPress={onPressCards} />
+                    <MenuCard name="Packs" onPress={onPressPack} /> 
                 </View>
             </View>
         </SafeAreaView>

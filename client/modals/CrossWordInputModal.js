@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     modalView: {
-        backgroundColor: colors.whiteText,
+        backgroundColor: colors.top,
         width: '95%',
         borderRadius: 20,
         padding: '5%',
@@ -98,9 +98,10 @@ const styles = StyleSheet.create({
     defContainer: {
         flexDirection: 'row',
         alignItems: 'center',
+        marginTop: '2%'
     },
     text: {
-        color: colors.dark,
+        color: colors.whiteText,
         fontWeight: 'bold',
         textAlign: 'center',
         fontSize: 18
@@ -108,11 +109,11 @@ const styles = StyleSheet.create({
     directionButtons: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        width: '100%',
+        width: '90%',
     },
     wordContainer: {
         flexDirection: 'row',
-        marginTop: '10%',
+        marginTop: '5%',
         alignItems: 'center',
     },
     input: {
@@ -120,13 +121,13 @@ const styles = StyleSheet.create({
         height: '180%',
         marginHorizontal: '1%',
         borderWidth: 1,
-        borderColor: colors.dark,
+        borderColor: colors.theme,
         textAlign: 'center',
         fontSize: 18,
-        color: colors.dark,
+        color: colors.whiteText,
     },
     buttonContainer: {
-        marginTop: '10%',
+        marginTop: '5%',
         width: '100%',
         alignItems: 'center',
     },

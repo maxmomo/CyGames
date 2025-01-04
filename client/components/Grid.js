@@ -25,7 +25,7 @@ const Grid = ({ setModal1Visible, setSelectedCell, gridDataLines, validated, gri
                                 <TouchableOpacity
                                     key={`${rowItem}-${colItem}`}
                                     style={styles.cell}
-                                    disabled={validated || awarded}
+                                    disabled={validated}
                                     onPress={() => {
                                         setSelectedCell({ row: rowIndex, col: colIndex });
                                         setModal1Visible(true);

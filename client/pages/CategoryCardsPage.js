@@ -4,7 +4,6 @@ import { useMyContext } from '../context/MyContext';
 import { useNavigation } from '@react-navigation/native';
 import { getUserRidersCategory } from '../api/riders/api';
 import { commonStyles } from '../styles/GlobalStyles';
-import Header from '../components/Header';
 import colors from '../constants/colors';
 
 export default function CategoryCardsPage() {
@@ -19,6 +18,8 @@ export default function CategoryCardsPage() {
     const [userGold, setUserGold] = useState(0);
 
     const user_id = state['user']['id'];
+
+    console.log(state.user)
     
     const getRidersEffect = useCallback(async () => {
         try {

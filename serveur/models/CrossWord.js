@@ -107,16 +107,13 @@ const CrossWord = sequelize.define('CrossWord', {
     J10: {type: DataTypes.INTEGER},
 })
 
-// Grid.associate = (models) => {
-//     Grid.belongsToMany(models.User, {
-//       through: models.UsersGrids,
-//       foreignKey: 'gridId',
-//     });
-//     Grid.hasMany(models.UsersGridsLines, { 
-//         foreignKey: 'gridId', 
-//         as: 'grids' 
-//     });
-// };
+CrossWord.associate = (models) => {
+    CrossWord.belongsToMany(models.User, {
+        through: models.UsersCrossWords,
+        foreignKey: 'crossWordId',
+    });
+};
+
 
 
 module.exports = CrossWord;

@@ -5,7 +5,7 @@ const { Op } = require('sequelize');
 const CrossWord = require('../models/CrossWord');
 
 
-const level = 3
+const level = 4
 const filePath = `C:/Users/maxim/Desktop/Import/Niveau${level}.xlsx`; // Remplacez par le chemin de votre fichier
 
 importCrosswordData(); 

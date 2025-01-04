@@ -24,6 +24,7 @@ import TeamsCardsPage from './pages/TeamsCardsPage';
 import ExchangeChoosePage from './pages/ExchangeChoosePage';
 import ExchangePage from './pages/ExchangePage';
 import ExchangeRiderSelectionPage from './pages/ExchangeRiderSelectionPage';
+import PackChoosePage from './pages/PackChoosePage';
 
 const Stack = createStackNavigator();
 
@@ -120,7 +121,10 @@ function App() {
             <Stack.Screen 
               name="CrossWord" 
               component={CrossWordPage} 
-
+            />
+            <Stack.Screen 
+              name="PackChoose" 
+              component={PackChoosePage} 
             />
           </Stack.Navigator>
         </NavigationContainer>
