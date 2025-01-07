@@ -22,6 +22,15 @@ export default function CardsRewardPage({ route }) {
                     { name: 'ExchangeChoose' }
                 ],
             });
+        
+        } else if (from === 'pack') {
+            navigation.reset({
+                index: 1, 
+                routes: [
+                    { name: 'Home' },
+                    { name: 'PackChoose' }
+                ],
+            });
         } else {
             navigation.reset({
                 index: 1, 

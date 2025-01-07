@@ -18,6 +18,8 @@ const {createUserRiders} = require('../controllers/userRiders/createUserRiders')
 const {getAllCrossWords} = require('../controllers/crossWord/getAllCrossWords');
 const {getExhangeRiders} = require('../controllers/riders/getExchangeRiders');
 const {exchangeUserRiders} = require('../controllers/userRiders/exchangeUserRiders');
+const {getAllPacks} = require('../controllers/pack/getAllPacks');
+const {buyPack} = require('../controllers/pack/buyPack');
 
 router.get("/users/create", createUser)
 router.get("/users/connect", connectUser)
@@ -41,5 +43,8 @@ router.get("/lines/grid/user/check", checkUserGridLines)
 
 router.get("/userriders/create", createUserRiders)
 router.get("/userriders/exchange", exchangeUserRiders)
+
+router.get("/packs/all", getAllPacks)
+router.get("/pack/buy", buyPack)
 
 module.exports = router

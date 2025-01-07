@@ -28,7 +28,7 @@ export default function LoginPage() {
             if (!data) {
                 Alert.alert('Erreur de connexion', 'Identifiants incorrects');
             } else {
-                dispatch({ type: 'SET_USERNAME', payload: data });
+                dispatch({ type: 'SET_USER', payload: data });
                 setEmail('');
                 setPassword('');
                 navigation.navigate('Home');

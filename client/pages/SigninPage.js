@@ -29,7 +29,7 @@ export default function SigninPage() {
             if (data === false) {
                 Alert.alert('Erreur de connexion', 'L\'utilisateur existe déjà');
             } else {
-                dispatch({ type: 'SET_USERNAME', payload: data });
+                dispatch({ type: 'SET_USER', payload: data });
                 navigation.navigate('Home');
             }
         } catch (error) {

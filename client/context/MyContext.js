@@ -4,7 +4,7 @@ import React, { createContext, useContext, useReducer } from 'react';
 const MyContext = createContext();
 
 // Actions possibles pour modifier l'état
-const SET_USERNAME = 'SET_USERNAME';
+const SET_USER = 'SET_USER';
 const SET_GRID = 'SET_GRID';
 const SET_RIDERS = 'SET_RIDERS';
 const SET_USER_RIDERS = 'SET_USER_RIDERS';
@@ -23,7 +23,7 @@ export const MyContextProvider = ({ children }) => {
 
     const reducer = (state, action) => {
         switch (action.type) {
-            case SET_USERNAME:
+            case SET_USER:
                 return { ...state, user: action.payload };
             case SET_GRID:
                 return {...state,

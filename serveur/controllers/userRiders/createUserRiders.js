@@ -5,54 +5,58 @@ const createUserRiders = async (req, transaction) => {
     const user_id = parseInt(params['user_id'], 10);
     const level = parseInt(params['level'], 10);
     const type = params['type']
-    let number_riders = 0
+    let number_riders = 0;
 
-    console.log(level, type)
+    pack_types = ['bronze', 'argent', 'or']
 
-    if (level < 4) {
+    if (level < 4 || pack_types.includes(type)) {
         number_riders = 4
     } else if (level === 4) {
         number_riders = 1
     }
 
-    if (isNaN(user_id) || isNaN(level)) {
-        throw new Error("Invalid parameters: user_id and level must be numbers.");
-    }
-
     try {
         const selectedRiders = [];
 
-        // Fonction pour sélectionner la catégorie en fonction du niveau
         const selectCategory = () => {
             const rand = Math.random();
-
-            if (level === 1) {
-                if (rand <= 0.01) return 1;
-                if (rand <= 0.10) return 2;
-                return 3;
-            } else if (level === 2) {
-                if (rand <= 0.05) return 1;
-                if (rand <= 0.30) return 2;
-                return 3;
-            } else if (level === 3) {
-                if (rand <= 0.15) return 1;
-                if (rand <= 0.50) return 2;
-                return 3;
-            } else if (level === 4) {
-                if (type === 'silver') {
-                    return 2
-                } else if (type === 'gold') {
-                    return 1
-                } else if (type === 'new') {
-                    if (rand <= 0.33) return 1;
-                    if (rand <= 0.66) return 2;
+            if (level) {
+                if (level === 1) {
+                    if (rand <= 0.01) return 1;
+                    if (rand <= 0.10) return 2;
                     return 3;
+                } else if (level === 2) {
+                    if (rand <= 0.05) return 1;
+                    if (rand <= 0.30) return 2;
+                    return 3;
+                } else if (level === 3) {
+                    if (rand <= 0.15) return 1;
+                    if (rand <= 0.50) return 2;
+                    return 3;
+                } else if (level === 4) {
+                    if (type === 'silver') {
+                        return 2
+                    } else if (type === 'gold') {
+                        return 1
+                    } else if (type === 'new') {
+                        if (rand <= 0.33) return 1;
+                        if (rand <= 0.66) return 2;
+                        return 3;
+                    }
+                }
+                return 3;
+            } else if (type) {
+                if (type === 'bronze') {
+                    return 3
+                } else if (type === 'argent') {
+                    return 2
+                } else if (type === 'or') {
+                    return 1
                 }
             }
-            return 3;
         };
 
-        // Sélection de 4 coureurs uniques
+        // Sélection de X coureurs uniques
         while (selectedRiders.length < number_riders) {
             const category = selectCategory();
 
@@ -105,11 +109,11 @@ const createUserRiders = async (req, transaction) => {
         // Insertion dans userriders avec gestion des doublons
         await db.query(
             `INSERT INTO userriders (userId, riderId, createdAt, updatedAt, count)
-             VALUES ? 
+             VALUES ?
              ON DUPLICATE KEY UPDATE 
-             count = count + 1, updatedAt = VALUES(updatedAt)`,
+             count = count + 1, updatedAt = CURRENT_TIMESTAMP`,
             {
-                replacements: [userRidersData],
+                replacements: [userRidersData], // Transmettez les données ici
                 type: db.QueryTypes.INSERT,
                 transaction
             }

@@ -15,6 +15,7 @@ const UsersCrossWords = require('./models/UsersCrossWords');
 const UsersGridsLines = require('./models/UsersGridsLines');
 const Rider = require('./models/Rider');
 const UserRiders = require('./models/UserRiders');
+const Pack = require('./models/Pack');
 
 // Configurer les associations
 const db = {};
@@ -26,8 +27,7 @@ db.Rider = Rider;
 db.UsersGrids = UsersGrids;
 db.UsersCrossWords = UsersCrossWords;
 db.UsersGridsLines = UsersGridsLines;
-
-console.group(db)
+db.Pack = Pack;
 
 // Associer les modèles
 //UserRiders.associate(db);
@@ -84,7 +84,7 @@ CrossWord.addHook('afterCreate', async (crossWord, options) => {
 });
 
 // Synchronise les modèles avec la base de données
-sequelize.sync({ alter: true })
+sequelize.sync({ alter: false })
   .then(() => {
     console.log('La synchronisation avec la base de données est terminée.');
   })

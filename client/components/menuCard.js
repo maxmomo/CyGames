@@ -1,4 +1,6 @@
 import { TouchableOpacity, StyleSheet, View, Text, Dimensions } from 'react-native';
+
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import colors from '../constants/colors';
 
 const windowWidth = Dimensions.get('window').width;
@@ -9,12 +11,24 @@ export default function MenuCard(props) {
             style={[
                 styles.card, 
                 props.full ? styles.fullCard : styles.halfCard,
-                props.noMargin && styles.noMargin, // Annule la marge si `noMargin` est vrai
+                props.noMargin && styles.noMargin,
             ]}
             onPress={props.onPress}
         >
+            {props.onInfoPress && <TouchableOpacity 
+                style={styles.infoButton} 
+                onPress={props.onInfoPress} // Nouveau bouton d'info
+            >
+                <MaterialCommunityIcons name="information-outline" size={26} color={colors.theme} />
+            </TouchableOpacity>}
             <View style={styles.textView}>
                 <Text style={styles.text}>{props.name}</Text>
+                {props.price && (
+                    <View style={styles.priceSection}>
+                        <MaterialCommunityIcons name='cash' size={32} color={colors.theme} />
+                        <Text style={styles.priceText}>{props.price.toLocaleString()}</Text>
+                    </View>
+                )}
             </View>
         </TouchableOpacity>
     );
@@ -50,5 +64,21 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'center',
         flexWrap: 'wrap',
+    },
+    priceSection: {
+        flexDirection: 'row',
+        marginTop: '10%', 
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    priceText: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: colors.black
+    },
+    infoButton: {
+        position: 'absolute',
+        top: '5%', 
+        right: '5', 
     },
 });
