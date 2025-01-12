@@ -3,7 +3,7 @@ import { View, SafeAreaView, Alert, StyleSheet, KeyboardAvoidingView, Platform }
 import { useNavigation } from '@react-navigation/native';
 import { useMyContext } from '../context/MyContext';
 
-import { BasicButton, BasicTextInput, Wave } from '../components';
+import { BasicButton, BasicTextInput, LogoMain, Wave } from '../components';
 
 import { createUser } from '../api/user/api';
 
@@ -46,6 +46,9 @@ export default function SigninPage() {
             {/* Section supérieure avec la vague */}
             <View style={styles.topSection}>
                 <Wave />
+                <View style={styles.logo}>
+                    <LogoMain />
+                </View>
             </View>
 
             {/* Section de formulaire avec gestion du clavier */}
@@ -93,6 +96,11 @@ const styles = StyleSheet.create({
     wave: {
         position: 'absolute',
         bottom: 0,
+    },
+    logo:{
+        flex: 1,
+        alignItems: 'center',
+        marginTop: '15%',
     },
     formSection: {
         flex: 1,

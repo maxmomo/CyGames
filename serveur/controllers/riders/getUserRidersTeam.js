@@ -19,7 +19,7 @@ const getUserRidersTeam = async (req, res) => {
             "LEFT JOIN userriders ur ON ri.id = ur.riderId AND ur.userId = :user_id " +
             "LEFT JOIN teams t on ri.team_id = t.id " +
             "WHERE " +
-            "t.status = 'WT' AND year = 2025 " +
+            "t.year = 2025 " +
             "ORDER BY ri.rank DESC",
             {
                 type: db.SELECT,
@@ -34,7 +34,7 @@ const getUserRidersTeam = async (req, res) => {
             "FROM riders ri " +
             "JOIN teams t on ri.team_id = t.id " +
             "WHERE " +
-            "t.status = 'WT' AND year = 2025 " +
+            "t.year = 2025 " +
             "GROUP BY t.id " +
             "ORDER BY t.id",
             {

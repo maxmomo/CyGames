@@ -19,7 +19,7 @@ const getUserRidersCategory = async (req, res) => {
             "LEFT JOIN userriders ur ON ri.id = ur.riderId AND ur.userId = :user_id " +
             "LEFT JOIN teams t on ri.team_id = t.id " +
             "WHERE " +
-            "t.status = 'WT' AND year = 2025 " +
+            "year = 2025 " +
             "ORDER BY ri.rank DESC",
             {
                 type: db.SELECT,
@@ -34,7 +34,7 @@ const getUserRidersCategory = async (req, res) => {
             "FROM riders ri " +
             "JOIN teams t on ri.team_id = t.id " +
             "WHERE " +
-            "t.status = 'WT' AND year = 2025 " +
+            "year = 2025 " +
             "GROUP BY category " +
             "ORDER BY category",
             {
@@ -45,6 +45,7 @@ const getUserRidersCategory = async (req, res) => {
         riders[0].push(stat[0][0]['count'])
         riders[0].push(stat[0][1]['count'])
         riders[0].push(stat[0][2]['count'])
+        riders[0].push(stat[0][3]['count'])
 
         res.json(riders[0]);
     } catch (error) {

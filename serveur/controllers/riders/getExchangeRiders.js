@@ -28,7 +28,7 @@ const getExhangeRiders = async (req, res) => {
                 "JOIN userriders ur ON ri.id = ur.riderId AND ur.userId = :user_id " +
                 "LEFT JOIN teams t on ri.team_id = t.id " +
                 "WHERE " +
-                "t.status = 'WT' AND year = 2025 AND ri.category = :category AND ur.count > 1 " +
+                "year = 2025 AND ri.category = :category AND ur.count > 1 " +
                 "ORDER BY ri.rank DESC",
                 {
                     type: db.SELECT,

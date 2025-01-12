@@ -19,11 +19,12 @@ export default function TeamsCardsPage() {
         try {
             const data = await getUserRidersTeam(state['ip_adress'], user_id);
             
-            const teams = data.slice(-18).map(teamStat => ({
+            const teams = data.slice(-23).map(teamStat => ({
                 id: teamStat.team_id,
                 name: teamStat.name,
                 count: teamStat.count,
             }));
+
 
             setTeamStats(teams);
             

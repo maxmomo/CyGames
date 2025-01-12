@@ -41,7 +41,8 @@ const createUserRiders = async (req, transaction) => {
                     } else if (type === 'new') {
                         if (rand <= 0.33) return 1;
                         if (rand <= 0.66) return 2;
-                        return 3;
+                        if (rand <= 0.99) return 3;
+                        return 4;
                     }
                 }
                 return 3;
@@ -74,7 +75,7 @@ const createUserRiders = async (req, transaction) => {
                 FROM riders ri 
                 JOIN teams t ON ri.team_id = t.id 
                 LEFT JOIN userriders ur ON ur.userId = ? AND ur.riderID = ri.id
-                WHERE t.status = 'WT' AND year = 2025 AND ri.category = ?
+                WHERE year = 2025 AND ri.category = ?
             `;
 
             const queryCondition = type === 'new' 

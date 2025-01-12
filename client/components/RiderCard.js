@@ -42,6 +42,9 @@ const RiderCard = ({ item, isDummy, reward }) => {
         kwiatkowski: require('../assets/teams/kwiatkowski.png'),
         rodriguez: require('../assets/teams/rodriguez.png'),
         thomas: require('../assets/teams/thomas.png'),
+        intermarche: require('../assets/teams/intermarche.png'),
+        kamp: require('../assets/teams/kamp.png'),
+        meintjes: require('../assets/teams/meintjes.png'),
         israel: require('../assets/teams/israel.png'),
         ackermann: require('../assets/teams/ackermann.png'),
         boivin: require('../assets/teams/boivin.png'),
@@ -67,6 +70,16 @@ const RiderCard = ({ item, isDummy, reward }) => {
         lampaert: require('../assets/teams/lampaert.png'),
         merlier: require('../assets/teams/merlier.png'),
         schachmann: require('../assets/teams/schachmann.png'),
+        tudor: require('../assets/teams/tudor.png'),
+        alaphilippe: require('../assets/teams/alaphilippe.png'),
+        brenner: require('../assets/teams/brenner.png'),
+        froidevaux: require('../assets/teams/froidevaux.png'),
+        j_eriksson: require('../assets/teams/j_eriksson.png'),
+        haller: require('../assets/teams/haller.png'),
+        hirschi: require('../assets/teams/hirschi.png'),
+        l_eriksson: require('../assets/teams/l_eriksson.png'),
+        trentin: require('../assets/teams/trentin.png'),
+        warbasse: require('../assets/teams/warbasse.png'),
         uae: require('../assets/teams/uae.png'),
         almeida: require('../assets/teams/almeida.png'),
         grossschartner: require('../assets/teams/grossschartner.png'),
@@ -90,14 +103,15 @@ const RiderCard = ({ item, isDummy, reward }) => {
     const badgeStyle = 
         item.category === 1 ? styles.goldBadge :
         item.category === 2 ? styles.silverBadge :
-        styles.bronzeBadge;
+        item.category === 3 ? styles.bronzeBadge :
+        styles.specialBadge;
 
     
     return (
         <View 
             style={[
                 styles.card, 
-                styles[item.category === 1 ? 'gold' : item.category === 2 ? 'silver' : 'bronze'],
+                styles[item.category === 1 ? 'gold' : item.category === 2 ? 'silver' : item.category === 3 ? 'bronze': 'special'],
                 { opacity: item.posseded ? 1 : 0.1 },
             ]}
         >
@@ -118,7 +132,14 @@ const RiderCard = ({ item, isDummy, reward }) => {
                 />
             </View>
             <View style={styles.textContainer}>
-                <Text style={[styles.text, { fontSize: 20 }]}>{item.name}</Text>
+                <Text 
+                    style={[
+                        styles.text, 
+                        { fontSize: 20, color: item.category === 4 ? colors.whiteText : colors.black }
+                    ]}
+                >
+                    {item.name}
+                </Text>
             </View>
             {item.count !== null && (
                 <View style={styles.countContainer}>
@@ -239,6 +260,11 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: '#5e3819',
     },
+    special: {
+        backgroundColor: '#2a2525',
+        borderWidth: 2,
+        borderColor: '#090505',
+    },
     goldBadge: {
         backgroundColor: '#A29460',
     },
@@ -247,6 +273,9 @@ const styles = StyleSheet.create({
     },
     bronzeBadge: {
         backgroundColor: '#AC9582', 
+    },
+    specialBadge: {
+        backgroundColor: '#2a2525', 
     },
     newIcon: {
     width: '100%',
