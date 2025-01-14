@@ -12,11 +12,17 @@ export default function CardsPage({ route }) {
     let riders = []
 
     if (category) {
-        riders = useMemo(() => state.user_riders.filter(rider => rider.category === category), [state.user_riders, category]);
+        riders = useMemo(() => 
+            state.user_riders.filter(rider => rider.category === category && rider.rank !== undefined && rider.rank !== null), 
+            [state.user_riders, category]
+        );
     }
 
     if (team) {
-        riders = useMemo(() => state.user_riders.filter(rider => rider.team_id === team), [state.user_riders, category]);
+        riders = useMemo(() => 
+            state.user_riders.filter(rider => rider.team_id === team && rider.rank !== undefined && rider.rank !== null), 
+            [state.user_riders, team]
+        );        
     }
 
     if (riders.length % 2 !== 0) {

@@ -36,7 +36,6 @@ User.associate = (models) => {
     through: models.UserRiders,
     foreignKey: 'userId',
   });
-  console.log(models['UsersCrossWords'])
   User.belongsToMany(models.CrossWord, {
     through: models.UsersCrossWords,
     foreignKey: 'userId',

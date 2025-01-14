@@ -3,48 +3,44 @@ const db = require("../../config/database");
 const getExhangeRiders = async (req, res) => {
     const params = req.query;
     const user_id = params['user_id'];
-    const type = params['type'];
+    const item = params['item'];
+    
+    const category = item.category_condition
+    const rank = item.rank_condition
+    const country = item.country_condition
+    const team = item.team_condition
+    
+    let query_input = `
+    SELECT ri.*, ur.count,
+    CASE WHEN ur.riderId IS NOT NULL THEN true ELSE false END AS posseded
+    FROM riders ri
+    JOIN userriders ur ON ri.id = ur.riderId AND ur.userId = ${user_id}
+    LEFT JOIN teams t on ri.team_id = t.id AND t.year = 2025
+    WHERE
+    ur.count > 1
+    `
 
-    const dic_type_category = {
-        'silver': 3,
-        'gold': 2,
-        'new': 1
+    if (category) {
+        query_input += ` AND ri.category = ${category}`
+    }
+    if (rank) {
+        query_input += ` AND ri.rank >= ${rank}`
+    }
+    if (country) {
+        query_input +=  ` AND ri.nationality = '${country}'`
+    }
+    if (team) {
+        query_input +=  ` AND ri.team_id = ${team}`
     }
 
+    query_input +=  ` ORDER BY ri.rank DESC`
+    
     try {
-        let riders = []
-        if (type === 'silver' || type === 'gold' || type === 'new') {
-            riders = await db.query(
-                "SELECT ri.*, ur.count, " +
-                "CASE " +
-                "WHEN ur.riderId IS NOT NULL THEN true " +
-                "ELSE false " +
-                "END AS posseded, " +
-                "CASE " +
-                "WHEN ri.picture IS NOT NULL AND ri.picture <> '' THEN ri.picture " +
-                "ELSE t.jersey " +
-                "END AS jersey " +
-                "FROM riders ri " +
-                "JOIN userriders ur ON ri.id = ur.riderId AND ur.userId = :user_id " +
-                "LEFT JOIN teams t on ri.team_id = t.id " +
-                "WHERE " +
-                "year = 2025 AND ri.category = :category AND ur.count > 1 " +
-                "ORDER BY ri.rank DESC",
-                {
-                    type: db.SELECT,
-                    replacements: { 
-                        user_id: user_id,
-                        category: dic_type_category[type]
-                    },
-                }
-            );
-        }
 
-        if (!Array.isArray(riders) || riders.length === 0 || riders[0].length === 0) {
-            riders = [];
-        }
-
+        const riders = await db.query(query_input);
+        
         res.json(riders);
+
     } catch (error) {
         throw error;
     }

@@ -1,55 +1,69 @@
-import React from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { SafeAreaView, FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { useMyContext } from '../context/MyContext';
 
 import MenuCard from '../components/MenuCard';
 import { commonStyles } from '../styles/GlobalStyles';
+import { getAllExchanges } from '../api/exchange/api';
+import InfoPackModal from '../modals/InfoPackModal';
 
 export default function ExchangeChoosePage() {
     const navigation = useNavigation();
+    const { state, dispatch } = useMyContext();
 
-    const onPressSilver = () => {
-        const text = 'Echangez 4 coureurs bronzes contre un coureur argent'
-        const type = 'silver'
-        navigation.navigate('Exchange', {text, type});
-    };
+    const [exchanges, setExchanges] = useState([]);
+    const [infoVisible, setInfoVisible] = useState(false);
+    const [selectedExchange, setSelectedExchange] = useState(null);
 
-    const onPressGold = () => {
-        const text = 'Echangez 4 coureurs argents contre un coureur or'
-        const type = 'gold'
-        navigation.navigate('Exchange', {text, type});
-    };
-
-    const onPressNew = () => {
-        const text = 'Echangez 4 coureurs or contre un nouveau coureur garanti'
-        const type = 'new'
-        navigation.navigate('Exchange', {text, type});
-    };
+    useEffect(() => {
+        getExchangesEffect();
+    }, [getExchangesEffect]);
     
+    const toggleInfoModal = (item) => {
+        setSelectedExchange(item); 
+        setInfoVisible(!infoVisible);
+    };
 
-    // Data for the FlatList
-    const menuItems = [
-        { id: '1', name: 'Amélioration Argent', onPress: onPressSilver },
-        { id: '2', name: 'Amélioration Or', onPress: onPressGold },
-        { id: '3', name: 'Nouveau coureur', onPress: onPressNew },
-    ];
+    const handleCancelInfo = () => {
+        setInfoVisible(false);
+        setSelectedExchange(null); 
+    };
 
-    // Render item function
+    const getExchangesEffect = useCallback(async () => {
+        try {
+            const data = await getAllExchanges(state['ip_adress'])
+            setExchanges(data);
+        } catch (error) {
+            Alert.alert('Erreur', 'Une erreur est survenue lors de la connexion. Veuillez réessayer.');
+        }
+    }, []);
+
+    const onPressExchange= (item) => {
+        navigation.navigate('Exchange', {item});
+    };
+
     const renderItem = ({ item, index }) => (
         <MenuCard 
             name={item.name} 
-            onPress={item.onPress} 
+            onPress={() => onPressExchange(item)} 
             noMargin={true} 
+            onInfoPress={() => toggleInfoModal(item)}
         />
     );
 
     return (
         <SafeAreaView style={commonStyles.container}>
             <FlatList
-                data={menuItems} 
+                data={exchanges} 
                 renderItem={renderItem} 
                 keyExtractor={(item) => item.id} 
                 numColumns={2} 
+            />
+            <InfoPackModal 
+                visible={infoVisible}
+                handleCancel={handleCancelInfo}
+                info={selectedExchange?.info}
             />
         </SafeAreaView>
     );

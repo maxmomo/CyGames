@@ -7,6 +7,8 @@ import { BasicButton } from '../components';
 
 export default function CardsRewardPage({ route }) {
     let { datas, from } = route.params;
+
+    console.log(datas)
     const navigation = useNavigation();
 
     if (datas.length % 2 !== 0) {

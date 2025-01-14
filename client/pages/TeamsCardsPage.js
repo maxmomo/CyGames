@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { TouchableOpacity, StyleSheet, Text, SafeAreaView, FlatList, Alert, View } from 'react-native';
+import { StyleSheet, SafeAreaView, FlatList, Alert } from 'react-native';
 import { useMyContext } from '../context/MyContext';
 import { useNavigation } from '@react-navigation/native';
 import { getUserRidersTeam } from '../api/riders/api';
@@ -18,13 +18,11 @@ export default function TeamsCardsPage() {
     const getRidersEffect = useCallback(async () => {
         try {
             const data = await getUserRidersTeam(state['ip_adress'], user_id);
-            
             const teams = data.slice(-23).map(teamStat => ({
                 id: teamStat.team_id,
                 name: teamStat.name,
                 count: teamStat.count,
             }));
-
 
             setTeamStats(teams);
             

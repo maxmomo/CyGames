@@ -20,8 +20,6 @@ export default function CategoryCardsPage() {
     const [userSpecial, setUserSpecial] = useState(0);
 
     const user_id = state['user']['id'];
-
-    console.log(state.user)
     
     const getRidersEffect = useCallback(async () => {
         try {

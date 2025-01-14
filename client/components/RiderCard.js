@@ -1,23 +1,36 @@
-import React, { memo } from 'react';
-import { StyleSheet, Text, View, Image, Dimensions } from 'react-native';
-import colors from '../constants/colors';
+import React, { memo, useState } from 'react';
+import { StyleSheet, Text, View, Image, Dimensions, TouchableOpacity } from 'react-native';
 import Flag from 'react-native-flags';
+
+import InfoPackModal from '../modals/InfoPackModal';
+
+import colors from '../constants/colors';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const { width, height } = Dimensions.get('window');
 
 const RiderCard = ({ item, isDummy, reward }) => {
-    
-    if (isDummy) {
-        return <View style={[styles.card, styles.dummyCard]} />;
-    }
 
+    const [infoVisible, setInfoVisible] = useState(false);
+    
     const badgeStyle = 
         item.category === 1 ? styles.goldBadge :
         item.category === 2 ? styles.silverBadge :
         item.category === 3 ? styles.bronzeBadge :
         styles.specialBadge;
 
-    
+    const handleCancelInfo = () => {
+        setInfoVisible(false);
+    };
+
+    const toggleInfoModal = () => {
+        setInfoVisible(!infoVisible);
+    };
+
+    if (isDummy) {
+        return <View style={[styles.card, styles.dummyCard]} />;
+    }
+
     return (
         <View 
             style={[
@@ -26,6 +39,12 @@ const RiderCard = ({ item, isDummy, reward }) => {
                 { opacity: item.posseded ? 1 : 0.1 },
             ]}
         >
+            {item.special && <TouchableOpacity 
+                style={styles.infoButton} 
+                onPress={toggleInfoModal} 
+            >
+                <MaterialCommunityIcons name="information-outline" size={26} color={colors.theme} />
+            </TouchableOpacity>}
             <View style={[styles.noteBadge, badgeStyle]}>
                 <Text style={styles.noteText}>{item.rank}</Text>
             </View>
@@ -38,7 +57,7 @@ const RiderCard = ({ item, isDummy, reward }) => {
             <View style={styles.imageContainer}>
             <Image 
                 style={styles.image} 
-                source={{ uri: item.jersey }} 
+                source={{ uri: item.picture }} 
                 resizeMode="contain"
             />
             </View>
@@ -53,7 +72,10 @@ const RiderCard = ({ item, isDummy, reward }) => {
                 </Text>
             </View>
             {item.count !== null && (
-                <View style={styles.countContainer}>
+                <View style={[
+                    styles.countContainer,
+                    { color: item.category === 4 ? colors.whiteText : colors.black }
+                ]}>
                     {reward && item.count === 1 ? (
                         <Image 
                             source={require('../assets/new.png')} 
@@ -61,10 +83,18 @@ const RiderCard = ({ item, isDummy, reward }) => {
                             resizeMode="contain" 
                         />
                     ) : (
-                        <Text style={styles.countText}>x {item.count}</Text>
+                        <Text style={[
+                            styles.countText, 
+                            { color: item.category === 4 ? colors.whiteText : colors.black }
+                        ]}>x {item.count}</Text>
                     )}
                 </View>
             )}
+            <InfoPackModal 
+                visible={infoVisible}
+                handleCancel={handleCancelInfo}
+                info={item.special_description}
+            />
         </View>
     );
 };
@@ -155,6 +185,12 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         alignItems: 'center',
         justifyContent: 'center'
+    },
+    infoButton: {
+        position: 'absolute',
+        zIndex: 10,
+        bottom: '2%',
+        right: '2%'
     },
     gold: {
         backgroundColor: '#ccb557',

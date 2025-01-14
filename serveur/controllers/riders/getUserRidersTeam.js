@@ -10,11 +10,7 @@ const getUserRidersTeam = async (req, res) => {
             "CASE " +
             "WHEN ur.riderId IS NOT NULL THEN true " +
             "ELSE false " +
-            "END AS posseded, " +
-            "CASE " +
-            "WHEN ri.picture IS NOT NULL AND ri.picture <> '' THEN ri.picture " +
-            "ELSE t.jersey " +
-            "END AS jersey " +
+            "END AS posseded " +
             "FROM riders ri " +
             "LEFT JOIN userriders ur ON ri.id = ur.riderId AND ur.userId = :user_id " +
             "LEFT JOIN teams t on ri.team_id = t.id " +
@@ -49,7 +45,6 @@ const getUserRidersTeam = async (req, res) => {
                 count: teamStat.count
             });
         });
-
 
         res.json(riders[0]);
     } catch (error) {

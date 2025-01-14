@@ -46,48 +46,8 @@ const Rider = sequelize.define('Rider', {
         type: DataTypes.INTEGER,
         defaultValue: 0
     },
-    odr_points: {
-        type: DataTypes.INTEGER,
-        defaultValue: 0
-    },
-    gc_points: {
-        type: DataTypes.INTEGER,
-        defaultValue: 0
-    },
-    tt_points: {
-        type: DataTypes.INTEGER,
-        defaultValue: 0
-    },
-    sprint_points: {
-        type: DataTypes.INTEGER,
-        defaultValue: 0
-    },
-    climb_points: {
-        type: DataTypes.INTEGER,
-        defaultValue: 0
-    },
-    average_points: {
-        type: DataTypes.INTEGER,
-        defaultValue: 0
-    },
-    season_points: {
-        type: DataTypes.INTEGER,
-        defaultValue: 0
-    },
     birthdate: {
         type: DataTypes.DATEONLY
-    },
-    all_time: {
-        type: DataTypes.INTEGER,
-        defaultValue: 0
-    },
-    uci_world: {
-        type: DataTypes.INTEGER,
-        defaultValue: 0
-    },
-    pcs_rank: {
-        type: DataTypes.INTEGER,
-        defaultValue: 0
     },
     category: {
         type: DataTypes.INTEGER,
@@ -100,6 +60,12 @@ const Rider = sequelize.define('Rider', {
     rank: {
         type: DataTypes.INTEGER,
         defaultValue: 0
+    },
+    special: {
+        type: DataTypes.STRING
+    },
+    special_description: {
+        type: DataTypes.STRING
     },
 });
 

@@ -16,6 +16,7 @@ const UsersGridsLines = require('./models/UsersGridsLines');
 const Rider = require('./models/Rider');
 const UserRiders = require('./models/UserRiders');
 const Pack = require('./models/Pack');
+const Exchange = require('./models/Exchange');
 
 // Configurer les associations
 const db = {};
@@ -28,6 +29,7 @@ db.UsersGrids = UsersGrids;
 db.UsersCrossWords = UsersCrossWords;
 db.UsersGridsLines = UsersGridsLines;
 db.Pack = Pack;
+db.Exchange = Exchange;
 
 // Associer les modèles
 //UserRiders.associate(db);

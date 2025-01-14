@@ -17,7 +17,7 @@ export default function MenuCard(props) {
         >
             {props.onInfoPress && <TouchableOpacity 
                 style={styles.infoButton} 
-                onPress={props.onInfoPress} // Nouveau bouton d'info
+                onPress={props.onInfoPress} 
             >
                 <MaterialCommunityIcons name="information-outline" size={26} color={colors.theme} />
             </TouchableOpacity>}

@@ -3,7 +3,6 @@ import { View, Modal, KeyboardAvoidingView, StyleSheet, Platform, Text } from 'r
 
 import ModalButton from '../components/ModalButton';
 
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import colors from '../constants/colors';
 import { commonStyles } from '../styles/GlobalStyles';
 

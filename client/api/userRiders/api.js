@@ -28,17 +28,17 @@ const createUserRiders = async (ip_address, user_id, type) => {
  *
  * @param {string} ip_address - Adresse IP du serveur.
  * @param {string} user_id - Id de l'utilisateur.
- * @param {string} type - Type de création.
+ * @param {Collection} item - Paramètre de l'échange.
  * @param {string} riders - Coureurs échangés.
  * @returns {Promise<Object|boolean>} - Renvoie les données des coureurs créés
  */
-const exchangeUserRiders = async (ip_address, user_id, type, riders, level) => {
+const exchangeUserRiders = async (ip_address, user_id, item, riders) => {
 
     try {
         const response = await axios({
             method: 'get',
             url: 'http://' + ip_address + ':3000/userriders/exchange',
-            params: { user_id, type, riders, level }
+            params: { user_id, item, riders }
         });
         return response.data;
     } catch (error) {

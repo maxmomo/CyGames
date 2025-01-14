@@ -15,13 +15,13 @@ const { width, height } = Dimensions.get('window');
 export default function ExchangePage({ route }) {
     const navigation = useNavigation();
     const { state } = useMyContext();
-    const { text, type } = route.params;
+    const { item } = route.params;
 
     const user = state.user || {};
 
     const [selectedRiders, setSelectedRiders] = useState([null, null, null, null]); 
     const [riders, setRiders] = useState([]); 
-    const [availableRiders, setAvailableRiders] = useState([]); // Liste des coureurs disponibles
+    const [availableRiders, setAvailableRiders] = useState([]); 
 
     useEffect(() => {
         getRidersEffect();
@@ -36,16 +36,16 @@ export default function ExchangePage({ route }) {
 
     const getRidersEffect = useCallback(async () => {
         try {
-            const data = await getExchangeRiders(state.ip_adress, user.id, type);
+            const data = await getExchangeRiders(state.ip_adress, user.id, item);
             setRiders(data && data[0] || []);
         } catch (error) {
             Alert.alert('Erreur', 'Une erreur est survenue lors de la connexion. Veuillez réessayer.');
         }
-    }, [state.ip_adress, user.id, type]);
+    }, [state.ip_adress, user.id, item]);
 
     const handleSelectRider = (index) => {
         navigation.navigate('ExchangeRiderSelection', {
-            riders: availableRiders, // Passe uniquement les coureurs disponibles
+            riders: availableRiders, 
             onSelect: (rider) => {
                 const updatedSelection = [...selectedRiders];
                 updatedSelection[index] = rider;
@@ -61,7 +61,7 @@ export default function ExchangePage({ route }) {
     };
 
     const handleValidate  = useCallback(async () => {
-        const datas = await exchangeUserRiders(state.ip_adress, user.id, type, selectedRiders, 4)
+        const datas = await exchangeUserRiders(state.ip_adress, user.id, item, selectedRiders)
         navigation.navigate('CardsReward', { datas: datas, from: 'exchange' });
     }, [selectedRiders]);
 
@@ -70,7 +70,7 @@ export default function ExchangePage({ route }) {
     return (
         <SafeAreaView style={commonStyles.container}>
             {!areAllRidersSelected && <View style={styles.box}>
-                <Text style={styles.instructions}>{text}</Text>
+                <Text style={styles.instructions}>{item.info}</Text>
             </View>}
             <View style={styles.gridContainer}>
                 {selectedRiders.map((rider, index) => (
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.card,
         borderRadius: 10,
         padding: '5%',
-        marginHorizontal: '5%',
+        marginHorizontal: '3%',
         marginTop: '2%',
     },
     gridContainer: {
@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
         padding: '2%' 
     },
     zone: {
-        width: width * 0.46,
+        width: width * 0.47,
         height: height * 0.35,
         borderRadius: 20,
         backgroundColor: colors.whiteText,
@@ -139,6 +139,7 @@ const styles = StyleSheet.create({
         flex: 1,
         width: '100%',
         height: '100%',
+        marginHorizontal: '1%'
     },
     buttonContainer: {
         paddingHorizontal: '10%',

@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, FlatList, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { SafeAreaView, FlatList, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import { commonStyles } from '../styles/GlobalStyles';

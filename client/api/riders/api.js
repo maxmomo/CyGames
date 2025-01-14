@@ -70,15 +70,15 @@ const getUserRidersTeam = async (ip_address, user_id) => {
  *
  * @param {string} ip_address - Adresse IP du serveur.
  * @param {string} user_id - ID de l'utilisateur.
- * @param {string} type - Type d'échange.
+ * @param {collection} item - Info du pack.
  * @returns {Promise<Object|boolean>} - Renvoie les coureurs
  */
-const getExchangeRiders = async (ip_address, user_id, type) => {
+const getExchangeRiders = async (ip_address, user_id, item) => {
     try {
         const response = await axios({
             method: 'get',
             url: 'http://' + ip_address + ':3000/riders/exchange',
-            params: {user_id, type}
+            params: {user_id, item}
         });
         
         return response.data;
